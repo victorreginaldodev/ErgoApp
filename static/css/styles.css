@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+    --azul-principal: #2A6CB2;
+    --azul-secundario: #0BB4ED;
+    --cinza: #78828B;
+    --branco: #fff;
+    --fonte: "Roboto", sans-serif;
+}
+
+body {
+    font-family: var(--fonte);
+}
+
+/* SIDE BAR */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 180px;
+    background-color: var(--azul-secundario);
+    /* background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-secundario) 100%); */
+    padding-top: 20px;
+    padding-left: 10px;
+}
+
+.logo {
+    padding-left: 12px;
+    margin-top: 4px;
+    margin-bottom: 2.1rem;
+}
+
+.logo h1 {
+    font-size: 1.4rem;
+    color: var(--branco);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    
+}
+
+.logo h5 {
+    font-size: 0.8rem;
+    color: var(--branco);
+    font-weight: 300;
+    
+}
+
+.sidebar a {
+    color: var(--branco);
+    text-decoration: none;
+    display: block;
+    padding: 12px;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.sidebar a:hover {
+    transform: scale(1.05);
+}
+
+/* CONTENT */
+.content {
+    margin-left: 180px;
+}
+
+.nav{
+    box-shadow: -1px -1px 4px var(--cinza);
+}
+
+.form-control {
+    width: 30vw;
+}
+
+.button {
+    border: none;
+    background-color: var(--azul-secundario);
+    /* background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-secundario) 100%); */
+    font-size: 14px;
+    padding: 0 1rem;
+    font-weight: 500;
+    color: var(--branco);
+}
+
+.button:hover {
+    border: none;
+    background-color: var(--azul-secundario);
+    /* background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-secundario) 100%); */
+    font-size: 14px;
+    padding: 0 1rem;
+    font-weight: 500;
+    color: var(--branco);
+    transform: scale(1.05);
+}
+
+.btn-link i {
+    font-size: 18px; 
+    color: var(--cinza);
+}
+
+.btn-link i:hover {
+    font-size: 17px;
+    
+}
+
+.page-title {
+    margin-top: 35px;
+}
+
+.page-title h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--cinza);
+}

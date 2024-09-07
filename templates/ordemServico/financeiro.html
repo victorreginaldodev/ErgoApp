@@ -1,0 +1,593 @@
+{% extends 'ordemServico/base.html' %}
+{% load static %}
+{% block title %}Área administrativa{% endblock %}
+{% block content %}
+
+<div class="content page-title administrativo">
+
+    <div class="filters mb-5 mt-1">
+
+        <div class="card" style="border: none;">
+            <div class="card-body">
+                <h5 class="card-title">Serviços para faturar</h5>
+                <div>
+                    <p class="card-text">
+                        Quantidade: <strong>{{ contagem_para_faturar }}</strong>
+                    </p>
+                    <p class="card-text">
+                        Valor: <strong id="valor-total-para-faturar">{{ valor_total_para_faturar }}</strong>
+                    </p>
+                </div>
+                <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="para_faturar">Visualizar</button>
+            </div>
+        </div>
+
+        <div class="card" style="border: none;">
+            <div class="card-body">
+                <h5 class="card-title">Faturamentos previstos</h5>
+                <div>
+                    <p class="card-text">
+                        Quantidade: <strong>{{ contagem_futuros_faturamentos }}</strong>
+                    </p>
+                    <p class="card-text">
+                        Valor: R$
+                        <strong id="valor-total-futuros-faturamentos">{{ valor_total_futuros_faturamentos}}</strong>
+                    </p>
+                </div>
+                <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="faturamentos_futuros">Visualizar</button>
+            </div>
+        </div>
+
+        <div class="card" style="border: none;">
+            <div class="card-body">
+                <h5 class="card-title">Faturadas</h5>
+                <div>
+                    <p class="card-text">
+                        Quantidade: <strong>{{ contagem_faturados }}</strong>
+                    </p>
+                    <p class="card-text">
+                        Valor: R$ <strong id="valor-total-faturados">{{ valor_total_faturados }}</strong>
+                    </p>
+                </div>
+                <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="faturados">Visualizar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pesquisar px-5">
+        <form action="{% url 'financeiro' %}" method="get">
+            <div class="input-group mb-1">
+                <input type="text" id="searchInput" name="nome_empresa" class="form-control"
+                    placeholder="Pesquisar pelo nome da empresa..." value="{{ nome_empresa }}">
+                <button class="btn button" type="submit" id="searchButton">Pesquisar</button>
+            </div>
+        </form>
+    </div>
+
+
+    {% for ordem_servico in para_faturar %}
+    <div class="px-5 para_faturar" style="display: block;">
+
+        <div class="accordion mb-1" id="accordion-{{ ordem_servico.id }}">
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="heading-{{ ordem_servico.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-{{ ordem_servico.id }}" aria-expanded="false"
+                        aria-controls="collapse-{{ ordem_servico.id }}">
+
+                        <div class="acordeao">
+                            <div class="accordion-header-items">
+                                <p>OS Nº:</p>{{ ordem_servico.id }}
+                            </div>
+                            <div class="accordion-header-items" style="border: none;">
+                                <p>Cliente:</p>{{ ordem_servico.cliente }}
+                            </div>
+                        </div>
+
+                    </button>
+                </h2>
+
+                <!--  -->
+                <div id="collapse-{{ ordem_servico.id }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading-{{ ordem_servico.id }}" data-bs-parent="#accordion-{{ ordem_servico.id }}">
+
+                    <div class="accordion-body">
+
+                        <div class="accordion-infos">
+
+                            <div class="row mb-4 mt-2">
+                                <div class="col-md-4">
+                                    <label for="{{ form.cliente.id_for_label }}" class="form-label">Cliente:</label>
+                                    <p>{{ ordem_servico.cliente }}</p>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="{{ form.valor.id_for_label }}" class="form-label">Valor:</label>
+                                    <p> R$ {{ ordem_servico.valor }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="{{ form.cobranca_imediata.id_for_label }}" class="form-label">
+                                        Cobrança Imediata:
+                                    </label>
+                                    <p>{{ ordem_servico.get_cobranca_imediata_display }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <label for="{{ form.forma_pagamento.id_for_label }}" class="form-label">
+                                        Forma de Pagamento:</label>
+                                    <p>{{ ordem_servico.get_forma_pagamento_display }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="{{ form.quantidade_parcelas.id_for_label }}" class="form-label">
+                                        Quantidade de Parcelas:
+                                    </label>
+                                    <p>{{ ordem_servico.quantidade_parcelas }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="{{ form.faturamento_1.id_for_label }}" class="form-label">Primeiro
+                                        Faturamento:</label>
+                                    <p>{{ ordem_servico.faturamento_1|date:"d/m/Y" }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <label for="{{ form.nome_contato_envio_nf.id_for_label }}" class="form-label">Nome
+                                        do
+                                        Representante Financeiro:</label>
+                                    <p>{{ ordem_servico.nome_contato_envio_nf }}</p>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <label for="{{ form.contato_envio_nf.id_for_label }}" class="form-label">Nome do
+                                        Contato:</label>
+                                    <p>{{ ordem_servico.contato_envio_nf }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <label for="{{ form.observacao.id_for_label }}"
+                                        class="form-label">Observações:</label>
+                                    <p class="accordion-observacao">{{ ordem_servico.observacao }}</p>
+                                </div>
+                            </div>
+
+
+                            <!-- Iterando sobre os serviços relacionados -->
+                            <div class="mb-4">
+                                <label class="form-label">Serviços contratados:</label>
+                                <ul>
+                                    {% for servico in ordem_servico.servico_set.all %}
+                                    <li>{{ servico.repositorio.nome }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+
+
+                        </div>
+
+                        <!-- Formulário de atualização -->
+                        <form method="POST" action="{% url 'financeiro' %}">
+                            {% csrf_token %}
+                            <div class="d-flex gap-3 mb-4">
+                                <div class="form-group w-25">
+                                    <label for="{{ form.faturamento.id_for_label }}">Faturamento:</label>
+                                    {{ form.faturamento }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ form.numero_nf.id_for_label }}">Nº NF:</label>
+                                    {{ form.numero_nf }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ form.data_faturamento.id_for_label }}">Data de Faturamento:</label>
+                                    {{ form.data_faturamento }}
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Atualizar</button>
+                        </form>
+                        <!-- Fim do formulário -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% for ordem_servico in futuros_faturamentos %}
+    <div class="px-5 faturamentos_futuros" style="display: none;">
+        <div class="accordion mb-1" id="accordion-{{ ordem_servico.id }}">
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="heading-{{ ordem_servico.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-{{ ordem_servico.id }}" aria-expanded="false"
+                        aria-controls="collapse-{{ ordem_servico.id }}">
+
+                        <div class="acordeao">
+                            <div class="accordion-header-items">
+                                <p>OS Nº:</p>{{ ordem_servico.id }}
+                            </div>
+                            <div class="accordion-header-items" style="border: none;">
+                                <p>Cliente:</p>{{ ordem_servico.cliente }}
+                            </div>
+                        </div>
+
+                    </button>
+                </h2>
+
+                <!--  -->
+                <div id="collapse-{{ ordem_servico.id }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading-{{ ordem_servico.id }}" data-bs-parent="#accordion-{{ ordem_servico.id }}">
+
+                    <div class="accordion-body">
+
+                        <div class="accordion-infos">
+
+                            <div class="row mb-4 mt-2">
+                                <div class="col-md-4">
+                                    <label for="{{ form.cliente.id_for_label }}" class="form-label">Cliente:</label>
+                                    <p>{{ ordem_servico.cliente }}</p>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="{{ form.valor.id_for_label }}" class="form-label">Valor:</label>
+                                    <p> R$ {{ ordem_servico.valor }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="{{ form.cobranca_imediata.id_for_label }}" class="form-label">
+                                        Cobrança Imediata:
+                                    </label>
+                                    <p>{{ ordem_servico.get_cobranca_imediata_display }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <label for="{{ form.forma_pagamento.id_for_label }}" class="form-label">
+                                        Forma de Pagamento:</label>
+                                    <p>{{ ordem_servico.get_forma_pagamento_display }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="{{ form.quantidade_parcelas.id_for_label }}" class="form-label">
+                                        Quantidade de Parcelas:
+                                    </label>
+                                    <p>{{ ordem_servico.quantidade_parcelas }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="{{ form.faturamento_1.id_for_label }}" class="form-label">Primeiro
+                                        Faturamento:</label>
+                                    <p>{{ ordem_servico.faturamento_1|date:"d/m/Y" }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <label for="{{ form.nome_contato_envio_nf.id_for_label }}" class="form-label">Nome
+                                        do
+                                        Representante Financeiro:</label>
+                                    <p>{{ ordem_servico.nome_contato_envio_nf }}</p>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <label for="{{ form.contato_envio_nf.id_for_label }}" class="form-label">Nome do
+                                        Contato:</label>
+                                    <p>{{ ordem_servico.contato_envio_nf }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <label for="{{ form.observacao.id_for_label }}"
+                                        class="form-label">Observações:</label>
+                                    <p class="accordion-observacao">{{ ordem_servico.observacao }}</p>
+                                </div>
+                            </div>
+
+
+                            <!-- Iterando sobre os serviços relacionados -->
+                            <div class="mb-4">
+                                <label class="form-label">Serviços contratados:</label>
+                                <ul>
+                                    {% for servico in ordem_servico.servico_set.all %}
+                                    <li>{{ servico.repositorio.nome }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% for ordem_servico in faturados %}
+    <div class="px-5 faturados" style="display: none;">
+        <div class="accordion mb-1" id="accordion-{{ ordem_servico.id }}">
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="heading-{{ ordem_servico.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-{{ ordem_servico.id }}" aria-expanded="false"
+                        aria-controls="collapse-{{ ordem_servico.id }}">
+
+                        <div class="acordeao">
+                            <div class="accordion-header-items">
+                                <p>OS Nº:</p>{{ ordem_servico.id }}
+                            </div>
+                            <div class="accordion-header-items" style="border: none;">
+                                <p>Cliente:</p>{{ ordem_servico.cliente }}
+                            </div>
+                        </div>
+
+                    </button>
+                </h2>
+
+                <!--  -->
+                <div id="collapse-{{ ordem_servico.id }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading-{{ ordem_servico.id }}" data-bs-parent="#accordion-{{ ordem_servico.id }}">
+
+                    <div class="accordion-body">
+
+                        <div class="accordion-infos">
+
+                            <div class="row mb-4 mt-2">
+                                <div class="col-md-4">
+                                    <label for="{{ form.cliente.id_for_label }}" class="form-label">Cliente:</label>
+                                    <p>{{ ordem_servico.cliente }}</p>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="{{ form.valor.id_for_label }}" class="form-label">Valor:</label>
+                                    <p> R$ {{ ordem_servico.valor }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="{{ form.cobranca_imediata.id_for_label }}" class="form-label">
+                                        Cobrança Imediata:
+                                    </label>
+                                    <p>{{ ordem_servico.get_cobranca_imediata_display }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <label for="{{ form.forma_pagamento.id_for_label }}" class="form-label">
+                                        Forma de Pagamento:</label>
+                                    <p>{{ ordem_servico.get_forma_pagamento_display }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="{{ form.quantidade_parcelas.id_for_label }}" class="form-label">
+                                        Quantidade de Parcelas:
+                                    </label>
+                                    <p>{{ ordem_servico.quantidade_parcelas }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="{{ form.faturamento_1.id_for_label }}" class="form-label">Primeiro
+                                        Faturamento:</label>
+                                    <p>{{ ordem_servico.faturamento_1|date:"d/m/Y" }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <label for="{{ form.nome_contato_envio_nf.id_for_label }}" class="form-label">Nome
+                                        do
+                                        Representante Financeiro:</label>
+                                    <p>{{ ordem_servico.nome_contato_envio_nf }}</p>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <label for="{{ form.contato_envio_nf.id_for_label }}" class="form-label">Nome do
+                                        Contato:</label>
+                                    <p>{{ ordem_servico.contato_envio_nf }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <label for="{{ form.observacao.id_for_label }}"
+                                        class="form-label">Observações:</label>
+                                    <p class="accordion-observacao">{{ ordem_servico.observacao }}</p>
+                                </div>
+                            </div>
+
+
+                            <!-- Iterando sobre os serviços relacionados -->
+                            <div class="mb-4">
+                                <label class="form-label">Serviços contratados:</label>
+                                <ul>
+                                    {% for servico in ordem_servico.servico_set.all %}
+                                    <li>{{ servico.repositorio.nome }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <label for="{{ form.nome_contato_envio_nf.id_for_label }}" class="form-label">
+                                        Fatumento:
+                                    </label>
+                                    <p>{{ ordem_servico.faturamento }}</p>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="{{ form.contato_envio_nf.id_for_label }}" class="form-label">
+                                        Número da nota fiscal:
+                                    </label>
+                                    <p>{{ ordem_servico.numero_nf }}</p>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="{{ form.contato_envio_nf.id_for_label }}" class="form-label">
+                                        Data do faturamento:
+                                    </label>
+                                    <p>{{ ordem_servico.data_faturamento|date:"d/m/Y"}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    function formatCurrency(value) {
+        if (isNaN(value)) return value;
+        const formatter = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        });
+        return formatter.format(value);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements = [
+            'valor-total-para-faturar',
+            'valor-total-futuros-faturamentos',
+            'valor-total-faturados'
+        ];
+
+        elements.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                const rawValue = parseFloat(element.innerText.replace('R$', '').replace(/\./g, '').replace(',', '.'));
+                element.innerText = formatCurrency(rawValue);
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnParaFaturar = document.getElementById('para_faturar');
+        const btnFuturosFaturamentos = document.getElementById('faturamentos_futuros');
+        const btnFaturadas = document.getElementById('faturados');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        const paraFaturar = document.getElementsByClassName('para_faturar');
+        const futurasFaturamentos = document.getElementsByClassName('faturamentos_futuros');
+        const faturadas = document.getElementsByClassName('faturados');
+
+        function setElement(btn, elementsToShow, elementsToHide1, elementsToHide2) {
+            btn.addEventListener('click', function () {
+                // Oculta os elementos que não devem ser exibidos
+                hideElements(elementsToHide1);
+                hideElements(elementsToHide2);
+
+                // Mostra os elementos desejados
+                showElements(elementsToShow);
+            });
+        }
+
+        function hideElements(elements) {
+            for (let elem of elements) {
+                elem.style.display = 'none';
+            }
+        }
+
+        function showElements(elements) {
+            for (let elem of elements) {
+                elem.style.display = 'block';
+            }
+        }
+
+        function filterData() {
+            const searchText = searchInput.value.toLowerCase();
+            const allElements = document.querySelectorAll('.para_faturar p, .faturamentos_futuros p, .faturados p');
+
+            allElements.forEach(elem => {
+                if (elem.textContent.toLowerCase().includes(searchText)) {
+                    elem.style.display = 'block';
+                } else {
+                    elem.style.display = 'none';
+                }
+            });
+        }
+
+        function searchOnClick() {
+            const activeElements = getActiveElements();
+            filterData();
+            showElements(activeElements);
+        }
+
+        function getActiveElements() {
+            const activeButton = document.querySelector('.btn.active');
+            if (!activeButton) return [];
+
+            switch (activeButton.id) {
+                case 'para_faturar':
+                    return paraFaturar;
+                case 'faturamentos_futuros':
+                    return futurasFaturamentos;
+                case 'faturados':
+                    return faturadas;
+                default:
+                    return [];
+            }
+        }
+
+        // Configura os eventos de clique para cada botão
+        setElement(btnParaFaturar, paraFaturar, futurasFaturamentos, faturadas);
+        setElement(btnFuturosFaturamentos, futurasFaturamentos, paraFaturar, faturadas);
+        setElement(btnFaturadas, faturadas, paraFaturar, futurasFaturamentos);
+
+        // Adiciona a funcionalidade de pesquisa
+        searchButton.addEventListener('click', searchOnClick);
+
+        // Adiciona a funcionalidade para destacar o botão ativo
+        document.querySelectorAll('button[id^="para_faturar"], button[id^="faturamentos_futuros"], button[id^="faturados"]').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
+
+<script>
+    // script.js
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('searchInput');
+        const accordionItems = document.querySelectorAll('.accordion-item');
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header').textContent.toLowerCase();
+                if (header.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Código para mostrar/esconder o conteúdo do accordion
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', function () {
+                const body = this.nextElementSibling;
+                body.style.display = (body.style.display === 'block') ? 'none' : 'block';
+            });
+        });
+    });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,414 @@
+{% extends 'ordemServico/base.html' %}
+{% load static %}
+{% block title %}Área Técnica - Técnico {% endblock %}
+{% block content %}
+
+<div class="content page-title">
+    <div class="filters mb-5 mt-1">
+
+        <div class="card" style="border: none;">
+            <div class="card-body">
+                <h5 class="card-title">Tarefas não iniciadas</h5>
+                <p class="card-text">
+                    Quantidade: <strong>{{ qtd_tarefas_nao_iniciadas }}</strong>
+                </p>
+                <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="nao_iniciado">Visualizar</button>
+            </div>
+        </div>
+
+        <div class="card" style="border: none;">
+            <div class="card-body">
+                <h5 class="card-title">Tarefas em andamento</h5>
+                <p class="card-text">
+                    Quantidade: <strong>{{ qtd_tarefas_em_andamento }}</strong>
+                </p>
+                <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="em_andamento">Visualizar</button>
+            </div>
+        </div>
+
+
+        <div class="card" style="border: none;">
+            <div class="card-body">
+                <h5 class="card-title">Tarefas finalizadas</h5>
+                <p class="card-text">
+                    Quantidade: <strong>{{ qtd_tarefas_finalizadas }}</strong>
+                </p>
+                <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="concluido">Visualizar</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pesquisar px-5">
+        <form action="{% url 'financeiro' %}" method="get">
+            <div class="input-group mb-1">
+                <input type="text" id="searchInput" name="nome_empresa" class="form-control"
+                    placeholder="Pesquisar pelo nome da empresa..." value="{{ nome_empresa }}">
+                <button class="btn button" type="submit" id="searchButton">Pesquisar</button>
+            </div>
+        </form>
+    </div>
+
+    {% for tarefa in tarefas_nao_iniciadas %}
+    <div class="px-5 nao_iniciado" style="display: block;">
+
+        <div class="accordion mb-1" id="accordion-{{ tarefa.servico.id }}">
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="heading-{{ tarefa.servico.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-{{ servico.id }}" aria-expanded="false"
+                        aria-controls="collapse-{{ tarefa.servico.id }}">
+
+                        <div class="acordeao">
+                            <div class="accordion-header-items">
+                                <p>OS Nº:</p>{{ tarefa.servico.ordem_servico.id }}
+                            </div>
+                            <div class="accordion-header-items" style="border: none;">
+                                <p>Cliente:</p>{{ tarefa.servico.ordem_servico.cliente.nome }}
+                            </div>
+                        </div>
+
+                    </button>
+                </h2>
+
+                <div id="collapse-{{ tarefa.servico.id }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading-{{ tarefa.servico.id }}"
+                    data-bs-parent="#accordion-{{ tarefa.servico.id }}">
+
+                    <div class="accordion-body">
+
+                        <div class="accordion-infos">
+                            <div class="row mb-4 mb-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Cliente:</label>
+                                    <p>{{ tarefa.servico.ordem_servico.cliente.nome }}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Serviço:</label>
+                                    <p>{{ tarefa.servico.repositorio}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <label class="form-label">Descrição da tarefa:</label>
+                                    <p class="accordion-observacao">{{ tarefa.servico.descricao }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form method="post" class="w-100">
+                            {% csrf_token %}
+
+                            <!-- Linha para os campos do formulário -->
+                            <div class="row gap-3">
+                                <!-- Campo de Atualizar Tarefa -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="{{ formUpdate.status.id_for_label }}" class="form-label">
+                                            Atualizar tarefa:
+                                        </label>
+                                        {{ formUpdate.status }}
+                                    </div>
+                                </div>
+
+                                <!-- Campo de Data de Início -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="{{ formUpdate.data_inicio.id_for_label }}" class="form-label">
+                                            Data de início:
+                                        </label>
+                                        {{ formUpdate.data_inicio }}
+                                    </div>
+                                </div>
+
+                                <!-- Campo de Data de Término -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="{{ formUpdate.data_termino.id_for_label }}" class="form-label">
+                                            Data de término:
+                                        </label>
+                                        {{ formUpdate.data_termino }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Linha separada para o botão de atualizar -->
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <button class="btn btn-success" type="submit" name="formUpdate">Atualizar</button>
+                                </div>
+                            </div>
+
+                            <!-- Campo oculto para Tarefa ID -->
+                            <input type="hidden" name="tarefa_id" value="{{ tarefa.id }}">
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% for tarefa in tarefas_em_andamento %}
+    <div class="px-5 em_andamento" style="display: none;">
+
+        <div class="accordion mb-1" id="accordion-{{ tarefa.servico.id }}">
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="heading-{{ tarefa.servico.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-{{ servico.id }}" aria-expanded="false"
+                        aria-controls="collapse-{{ tarefa.servico.id }}">
+
+                        <div class="acordeao">
+                            <div class="accordion-header-items">
+                                <p>OS Nº:</p>{{ tarefa.servico.ordem_servico.id }}
+                            </div>
+                            <div class="accordion-header-items" style="border: none;">
+                                <p>Cliente:</p>{{ tarefa.servico.ordem_servico.cliente.nome }}
+                            </div>
+                        </div>
+
+                    </button>
+                </h2>
+
+                <div id="collapse-{{ tarefa.servico.id }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading-{{ tarefa.servico.id }}"
+                    data-bs-parent="#accordion-{{ tarefa.servico.id }}">
+
+                    <div class="accordion-body">
+
+                        <div class="accordion-infos">
+                            <div class="row mb-4 mb-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Cliente:</label>
+                                    <p>{{ tarefa.servico.ordem_servico.cliente.nome }}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Serviço:</label>
+                                    <p>{{ tarefa.servico.repositorio}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <label class="form-label">Descrição da tarefa:</label>
+                                    <p class="accordion-observacao">{{ tarefa.servico.descricao }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form method="post" class="w-100">
+                            {% csrf_token %}
+
+                            <!-- Linha para os campos do formulário -->
+                            <div class="row gap-3">
+                                <!-- Campo de Atualizar Tarefa -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="{{ formUpdate.status.id_for_label }}" class="form-label">
+                                            Atualizar tarefa:
+                                        </label>
+                                        {{ formUpdate.status }}
+                                    </div>
+                                </div>
+
+                                <!-- Campo de Data de Início -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="{{ formUpdate.data_inicio.id_for_label }}" class="form-label">
+                                            Data de início:
+                                        </label>
+                                        {{ formUpdate.data_inicio }}
+                                    </div>
+                                </div>
+
+                                <!-- Campo de Data de Término -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="{{ formUpdate.data_termino.id_for_label }}" class="form-label">
+                                            Data de término:
+                                        </label>
+                                        {{ formUpdate.data_termino }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Linha separada para o botão de atualizar -->
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <button class="btn btn-success" type="submit" name="formUpdate">Atualizar</button>
+                                </div>
+                            </div>
+
+                            <!-- Campo oculto para Tarefa ID -->
+                            <input type="hidden" name="tarefa_id" value="{{ tarefa.id }}">
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% for tarefa in tarefas_finalizadas %}
+    <div class="px-5 concluido" style="display: none;">
+
+        <div class="accordion mb-1" id="accordion-{{ tarefa.servico.id }}">
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="heading-{{ tarefa.servico.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-{{ servico.id }}" aria-expanded="false"
+                        aria-controls="collapse-{{ tarefa.servico.id }}">
+
+                        <div class="acordeao">
+                            <div class="accordion-header-items">
+                                <p>OS Nº:</p>{{ tarefa.servico.ordem_servico.id }}
+                            </div>
+                            <div class="accordion-header-items" style="border: none;">
+                                <p>Cliente:</p>{{ tarefa.servico.ordem_servico.cliente.nome }}
+                            </div>
+                        </div>
+
+                    </button>
+                </h2>
+
+                <div id="collapse-{{ tarefa.servico.id }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading-{{ tarefa.servico.id }}"
+                    data-bs-parent="#accordion-{{ tarefa.servico.id }}">
+
+                    <div class="accordion-body">
+
+                        <div class="accordion-infos">
+                            <div class="row mb-4 mb-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Cliente:</label>
+                                    <p>{{ tarefa.servico.ordem_servico.cliente.nome }}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Serviço:</label>
+                                    <p>{{ tarefa.servico.repositorio}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <label class="form-label">Descrição da tarefa:</label>
+                                    <p class="accordion-observacao">{{ tarefa.servico.descricao }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4 mb-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Status:</label>
+                                    <p>{{ tarefa.status }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">
+                                        Data de início:
+                                    </label>
+                                    <p>{{ tarefa.data_inicio|date:"d/m/Y" }}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">
+                                        Data de término:
+                                    </label>
+                                    <p>{{ tarefa.data_termino|date:"d/m/Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // script.js
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('searchInput');
+        const accordionItems = document.querySelectorAll('.accordion-item');
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header').textContent.toLowerCase();
+                if (header.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Código para mostrar/esconder o conteúdo do accordion
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', function () {
+                const body = this.nextElementSibling;
+                body.style.display = (body.style.display === 'block') ? 'none' : 'block';
+            });
+        });
+    });
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtém referências para os botões
+        const btnNaoIniciado = document.getElementById('nao_iniciado');
+        const btnEmAndamento = document.getElementById('em_andamento');
+        const btnConcluido = document.getElementById('concluido');
+
+        // Obtém referências para os elementos a serem exibidos/ocultados
+        const naoIniciado = document.getElementsByClassName('nao_iniciado');
+        const emAndamento = document.getElementsByClassName('em_andamento');
+        const concluido = document.getElementsByClassName('concluido');
+
+        function setElement(btn, elementsToShow, elementsToHide1, elementsToHide2) {
+            btn.addEventListener('click', function () {
+                // Oculta os elementos que não devem ser exibidos
+                hideElements(elementsToHide1);
+                hideElements(elementsToHide2);
+
+                // Mostra os elementos desejados
+                showElements(elementsToShow);
+            });
+        }
+
+        function hideElements(elements) {
+            for (let elem of elements) {
+                elem.style.display = 'none';
+            }
+        }
+
+        function showElements(elements) {
+            for (let elem of elements) {
+                elem.style.display = 'block';
+            }
+        }
+
+        // Configura os eventos de clique para cada botão
+        setElement(btnNaoIniciado, naoIniciado, emAndamento, concluido);
+        setElement(btnEmAndamento, emAndamento, naoIniciado, concluido);
+        setElement(btnConcluido, concluido, naoIniciado, emAndamento);
+    });
+</script>
+
+{% endblock %}

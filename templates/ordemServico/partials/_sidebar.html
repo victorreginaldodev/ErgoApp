@@ -1,0 +1,68 @@
+<div class="sidebar">
+
+
+    <div class="logo">
+        <h1>ErgoApp</h1>
+        <h5>Versão 2.0</h5>
+    </div>
+
+    <div>
+
+        <div class="dropdown  dropdown-sidebar mb-3">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="bi bi-table" style="margin-right: 4px;"></i>
+                Administrativo
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="{% url 'criar_ordem_servico' %}">Criar ordem de serviço</a></li>
+                <li><a class="dropdown-item" href="{% url 'financeiro' %}">Financeiro</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown dropdown-sidebar mb-3">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fa-solid fa-helmet-safety" style="margin-right: 4px;"></i>
+                Área Técnica
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="{% url 'lider_tecnico' %}">Líder técnico</a></li>
+                <li><a class="dropdown-item" href="{% url 'tecnico' %}">Técnico</a></li>
+                <li><a class="dropdown-item" href="{% url 'os_rapida' %}">OS Rápida</a></li>
+                <li><a class="dropdown-item" href="{% url 'criar_os_rapida' %}">Criar OS Rápida</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown dropdown-sidebar mb-3">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fa-solid fa-users" style="margin-right: 4px;"></i>
+                Clientes
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Cadastrar</a></li>
+                <li><a class="dropdown-item" href="#">Ver clientes</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown dropdown-sidebar mb-3">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fa-solid fa-list" style="margin-right: 4px;"></i>
+                Serviços
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Cadastrar</a></li>
+                <li><a class="dropdown-item" href="#">Ver Serviços</a></li>
+            </ul>
+        </div>
+
+        <a href="{% url 'logout' %}" style="color: #fff; font-size: 14px;">
+            <i class="fas fa-sign-out-alt" style="margin-right: 4px;"></i>
+            Sair
+        </a>
+
+    </div>
+
+</div>

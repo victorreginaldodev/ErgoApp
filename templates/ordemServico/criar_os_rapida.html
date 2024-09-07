@@ -1,0 +1,50 @@
+{% extends 'ordemServico/base.html' %}
+{% load static %}
+{% block title %}Criar OS rápida{% endblock %}
+{% block content %}
+<div class="content page-title">
+
+    <h3 class="fs-4 ms-4 mb-5">
+        <i class="fa-solid fa-pen-to-square"></i>
+        Criar nova ordem de serviço rápida
+    </h3>
+
+    <form method="post">
+
+        {% csrf_token %}
+        
+        <div class="p-2 mb-3">
+            <label for="{{ form.cliente.id_for_label }}">Selecione um cliente:</label>
+            <div class="form-group w-25">
+                {{ form.cliente }}
+            </div>
+        </div>
+
+        <div class="p-2 d-flex g-1">
+            <div class="w-25">
+                <label for="{{ form.profile.id_for_label }}">Selecione um técnico:</label>
+                <div class="form-group">
+                    {{ form.profile }}
+                </div>
+            </div>
+
+            <div class="w-25">
+                <label for="{{ form.servico.id_for_label }}">Selecione serviço:</label>
+                <div class="form-group">
+                    {{ form.servico }}
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3 mb-3 p-2">
+            <div class="form-group">
+                <label for="{{ form.observacao.id_for_label }}">Descrição:</label>
+                {{ form.descricao }}
+            </div>
+        </div>
+
+        <button class="btn btn-success ms-2" type="submit">Salvar</button>
+    </form>
+
+</div>
+{% endblock %}
