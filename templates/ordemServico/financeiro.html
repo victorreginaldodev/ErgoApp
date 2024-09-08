@@ -3,7 +3,7 @@
 {% block title %}Área administrativa{% endblock %}
 {% block content %}
 
-<div class="content page-title administrativo">
+<div class="content page-title administrativo mb-5">
 
     <div class="filters mb-5 mt-1">
 
@@ -89,7 +89,6 @@
                     </button>
                 </h2>
 
-                <!--  -->
                 <div id="collapse-{{ ordem_servico.id }}" class="accordion-collapse collapse"
                     aria-labelledby="heading-{{ ordem_servico.id }}" data-bs-parent="#accordion-{{ ordem_servico.id }}">
 
@@ -102,7 +101,6 @@
                                     <label for="{{ form.cliente.id_for_label }}" class="form-label">Cliente:</label>
                                     <p>{{ ordem_servico.cliente }}</p>
                                 </div>
-
                                 <div class="col-md-2">
                                     <label for="{{ form.valor.id_for_label }}" class="form-label">Valor:</label>
                                     <p> R$ {{ ordem_servico.valor }}</p>
@@ -167,14 +165,14 @@
                                     {% endfor %}
                                 </ul>
                             </div>
-
-
-
                         </div>
 
                         <!-- Formulário de atualização -->
-                        <form method="POST" action="{% url 'financeiro' %}">
+                        <form method="POST" action="{% url 'financeiro' %}" novalidate>
                             {% csrf_token %}
+                            <!-- Inclua o ID da ordem de serviço como um campo oculto -->
+                            <input type="hidden" name="ordem_servico_id" value="{{ ordem_servico.id }}">
+
                             <div class="d-flex gap-3 mb-4">
                                 <div class="form-group w-25">
                                     <label for="{{ form.faturamento.id_for_label }}">Faturamento:</label>
@@ -189,6 +187,7 @@
                                     {{ form.data_faturamento }}
                                 </div>
                             </div>
+
                             <button type="submit" class="btn btn-success">Atualizar</button>
                         </form>
                         <!-- Fim do formulário -->

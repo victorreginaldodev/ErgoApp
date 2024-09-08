@@ -6,3 +6,5 @@ from .RegistroForm import UserRegisterForm, ProfileRegisterForm
 from .ServicoUpdateForm import ServicoUpdateForm
 from .TarefaForm import TarefaForm
 from .TarefaUpdateForm import TarefaUpdateForm
+from .ClienteForm import Clienteform
+from .ServicoForm import ServicoForm

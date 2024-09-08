@@ -7,6 +7,7 @@ class Servico(models.Model):
     STATUS = (
         ('em_espera', 'EM ESPERA'),
         ('em_andamento', 'EM ANDAMENTO'),
+        ('concluida', 'CONCLUÍDA'),
     )
 
     ordem_servico = models.ForeignKey(

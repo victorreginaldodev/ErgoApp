@@ -6,3 +6,4 @@ from .OsRapidaView import *
 from .ProfileView import *
 from .RegistroView import *
 from .TecnicoView import *
+from .ClientesView import *

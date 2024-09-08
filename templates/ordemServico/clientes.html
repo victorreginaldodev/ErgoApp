@@ -1,0 +1,30 @@
+{% extends 'ordemServico/base.html' %}
+{% load static %}
+{% block title %}Criar ordem de serviço{% endblock %}
+
+{% block content %}
+
+<div class="content page-title">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Inscrição</th>
+                <th>Tipo de inscrição</th>
+                <th>Tipo de cliente</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.inscricao }}</td>
+                <td>{{ cliente.tipo_inscricao }}</td>
+                <td>{{ cliente.tipo_cliente }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

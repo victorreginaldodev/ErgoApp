@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="content page-title">
-    <div class="filters mb-5 mt-1">
+    <!-- <div class="filters mb-5 mt-1">
 
         <div class="card" style="border: none;">
             <div class="card-body">
@@ -37,9 +37,9 @@
             </div>
         </div>
 
-    </div>
+    </div> -->
 
-    <div class="pesquisar px-5">
+    <!-- <div class="pesquisar px-5">
         <form action="{% url 'financeiro' %}" method="get">
             <div class="input-group mb-1">
                 <input type="text" id="searchInput" name="nome_empresa" class="form-control"
@@ -47,6 +47,26 @@
                 <button class="btn button" type="submit" id="searchButton">Pesquisar</button>
             </div>
         </form>
+    </div> -->
+
+    <div class="pesquisar px-5" style="display: flex; align-items: center;">
+        <form action="{% url 'financeiro' %}" method="get" style="flex: 1;">
+            <div class="input-group mb-1">
+                <input type="text" id="searchInput" name="nome_empresa" class="form-control" placeholder="Pesquise pelo nome da empresa..." value="{{ nome_empresa }}">
+            </div>
+        </form>
+        <div class="ms-3 mb-3">
+
+            <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="nao_iniciado">
+                Novos serviços: {{ qtd_tarefas_nao_iniciadas }}
+            </button>
+            <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="em_andamento">
+                Em andamento: {{ qtd_tarefas_em_andamento }}
+            </button>
+            <button class="btn button px-3 py-1 mt-2 visualizar-btn"  id="concluido">
+                Finalizados: {{ qtd_tarefas_finalizadas }}
+            </button>
+        </div>
     </div>
 
     {% for tarefa in tarefas_nao_iniciadas %}

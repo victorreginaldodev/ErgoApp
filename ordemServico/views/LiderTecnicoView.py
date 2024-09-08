@@ -22,11 +22,11 @@ def lider_tecnico(request):
     qtd_novos_servicos = novos_servicos.count()
 
     # Filtra serviços com tarefas em andamento e remove duplicatas
-    servicos_em_andamento = Servico.objects.filter(tarefa__status='em_andamento').distinct()
+    servicos_em_andamento = Servico.objects.filter(status='em_andamento')
     qtd_servicos_em_andamento = servicos_em_andamento.count()
 
     # Filtra serviços com tarefas concluídas e remove duplicatas
-    servicos_finalizados = Servico.objects.filter(tarefa__status='concluida').distinct()
+    servicos_finalizados = Servico.objects.filter(status='concluida')
     qtd_servicos_finalizados = servicos_finalizados.count()
 
 

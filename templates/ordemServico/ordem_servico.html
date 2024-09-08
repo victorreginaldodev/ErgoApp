@@ -4,9 +4,9 @@
 {% block content %}
 
 <div class="content page-title">
-    <h3 class="fs-4 ms-4 mb-5">
+    <h3 class="fs-5 ms-4 mb-5">
         <i class="fa-solid fa-pen-to-square"></i>
-        Criar nova ordem de serviço
+        Criar novos serviços
     </h3>
 
     <form class="ms-4 me-5 mb-5" method="POST" enctype="multipart/form-data">
@@ -29,17 +29,18 @@
         {% endif %}
 
         <!-- ========== CLIENTE ========== -->
-        <h6 class="secao-os mb-2">Cliente</h6>
-        <div class="section-border p-3 mb-3">
-            <label for="{{ ordem_servico_form.cliente.id_for_label }}">Selecione um cliente:</label>
-            <div class="form-group w-25">
-                {{ ordem_servico_form.cliente }}
+        <div class="col-md-6 mb-3 d-flex align-items-end">
+            <div class="flex-grow-1 me-2">
+                <label for="{{ ordem_servico_form.cliente.id_for_label }}">Selecione um cliente:</label>
+                <div class="form-group">
+                    {{ ordem_servico_form.cliente }}
+                </div>
             </div>
         </div>
 
         <!-- ========== FINANCEIRO ========== -->
-        <h6 class="secao-os mt-5 mb-2">Informações financeiras</h6>
-        <div class="section-border p-3 mb-3">
+        <h6 class="secao-os mt-5 mb-4">Preencha as informações financeiras para todos os serviços relacionados a esta venda.</h6>
+        <div class="mb-3">
 
             <div class="d-flex gap-3 mb-4">
                 <div class="form-group">
@@ -55,18 +56,20 @@
                     {{ ordem_servico_form.forma_pagamento }}
                 </div>
                 <div class="form-group" style="width: 12vw;">
-                    <label for="{{ ordem_servico_form.quantidade_parcelas.id_for_label }}">Quantidade de parcelas:</label>
+                    <label for="{{ ordem_servico_form.quantidade_parcelas.id_for_label }}">Quantidade de
+                        parcelas:</label>
                     {{ ordem_servico_form.quantidade_parcelas }}
                 </div>
                 <div class="form-group" style="width: 10vw;">
-                    <label for="{{ ordem_servico_form.faturamento_1.id_for_label }}">Data do 1º faturamento:</label>
+                    <label for="{{ ordem_servico_form.faturamento_1.id_for_label }}">1° faturamento:</label>
                     {{ ordem_servico_form.faturamento_1 }}
                 </div>
             </div>
 
             <div class="d-flex gap-3 mb-4">
                 <div class="form-group">
-                    <label for="{{ ordem_servico_form.nome_contato_envio_nf.id_for_label }}">Nome do representante financeiro:</label>
+                    <label for="{{ ordem_servico_form.nome_contato_envio_nf.id_for_label }}">Nome do representante
+                        financeiro:</label>
                     {{ ordem_servico_form.nome_contato_envio_nf }}
                 </div>
                 <div class="form-group">
@@ -84,26 +87,26 @@
         </div>
 
         <!-- ========== SERVIÇOS ========== -->
-        <h6 class="secao-os mt-5 mb-2">Serviços contratados</h6>
-        <div class="section-border p-3 mb-3">
-            <!-- Exibir erros gerais do formset -->
+        <h6 class="secao-os mt-5 mb-4">Inclua todos os serviços contratados aqui para que possam ser faturados juntos.</h6>
+        <div class="mb-3">
             {{ servico_formset.management_form }}
-
-            {% for form in servico_formset %}
-            <div class="inlineform formset-servico mb-3">
-                {{ form.as_p }}
-                {% if form.errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
+            {% for servico in servico_formset %}
+            <div class="inlineform formset-servico mb-3 border p-3 rounded">
+                <div class="form-group mb-3">
+                    <label for="{{ servico.repositorio.id_for_label }}">Nome do serviço:</label>
+                    {{ servico.repositorio }}
                 </div>
-                {% endif %}
+
+                <div class="form-group mb-3">
+                    <label for="{{ servico.descricao.id_for_label }}">Descrição do serviço:</label>
+                    {{ servico.descricao }}
+                </div>
+
             </div>
             {% endfor %}
         </div>
-        <div class="d-flex justify-content-center">
-            <button type="submit" class="btn button w-75 mt-4 py-2 px-4">Salvar</button>
+        <div class="d-flex justify-content-center p-3">
+            <button type="submit" class="btn button w-100 mt-4 py-2 px-4">Salvar todos os serviços</button>
         </div>
     </form>
 </div>
@@ -120,6 +123,29 @@
             deleteText: '<i class="fas fa-trash"></i> Excluir',
             addCssClass: 'btn btn-primary d-inline-block me-2',
             deleteCssClass: 'btn btn-danger d-inline-block',
+        });
+
+        // Adiciona comportamento ao botão de excluir
+        $(document).on('click', '.delete-row', function () {
+            const prefix = $(this).data('formset-prefix');
+            const formset = $(this).closest('.inlineform');
+            formset.remove();
+        });
+
+        // Adiciona comportamento ao botão de adicionar
+        $(document).on('click', '.add-row', function () {
+            const prefix = $(this).data('formset-prefix');
+            const formsetContainer = $(this).closest('.mb-3');
+            const formCount = formsetContainer.find('.inlineform').length;
+            const newRow = $(formsetContainer).find('.inlineform:first').clone();
+            newRow.find(':input').each(function () {
+                const name = $(this).attr('name').replace('__prefix__', formCount);
+                $(this).attr('name', name);
+                $(this).attr('id', name);
+                $(this).val('');
+            });
+            newRow.find('.form-control, .form-select').val('');
+            formsetContainer.append(newRow);
         });
     });
 </script>

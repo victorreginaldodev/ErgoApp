@@ -10,7 +10,7 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')  # Redireciona para a página inicial após o login
+            return redirect('criar_ordem_servico')
         else:
             messages.error(request, "Usuário ou senha inválidos!")
     return render(request, 'ordemServico/login.html')

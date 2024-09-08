@@ -1,21 +1,22 @@
-from django.forms import ModelForm, Select, TextInput, Textarea, NumberInput, CheckboxInput, DateInput
 from django import forms
 from ordemServico.models import Servico
 
-class ServicoForm(ModelForm):
-    
+class ServicoForm(forms.ModelForm):
     class Meta:
         model = Servico
-        fields = ['repositorio', 'descricao']
+        fields = ['repositorio', 'descricao'] 
         widgets = {
-            'repositorio': Select(attrs={
-                'class': 'form-select w-100',
-                'aria-label': 'Selecione um serviço',
+            'repositorio': forms.Select(attrs={
+                'class': 'form-select', 
+                'id': 'floatingSelect',
+                'aria-label': 'Selecione um repositório',
+                'class': 'form-control w-75',
             }),
-            'descricao': Textarea(attrs={
-                'class': 'form-control w-100',
+            'descricao': forms.Textarea(attrs={
+                'class': 'form-control textarea-control w-100',
                 'style': 'height: 150px',
-                'placeholder': 'Faça a descrição do serviço',
-                'rows': 3,
+                'id': 'floatingTextarea2',
+                'placeholder': 'Digite aqui a descrição...',
+                'rows': 8,
             }),
         }
