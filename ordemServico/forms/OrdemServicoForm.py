@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Select, TextInput, Textarea, NumberInput, CheckboxInput, DateInput
+from django.forms import ModelForm, Select, TextInput, DateInput
 from django import forms
 from ordemServico.models import OrdemServico
 

@@ -20,7 +20,7 @@ class Servico(models.Model):
         Repositorio, 
         on_delete=models.CASCADE,
         null=True,
-        blank=True
+        blank=True,
     )
     descricao = models.CharField(
         blank=True, 

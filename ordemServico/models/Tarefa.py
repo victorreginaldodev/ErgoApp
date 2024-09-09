@@ -20,14 +20,15 @@ class Tarefa(models.Model):
     servico = models.ForeignKey(
         Servico, 
         on_delete=models.CASCADE,
-        null=True,
-        blank=True
+        null=False,
+        blank=False,
+        default=""
     ) 
     profile = models.ForeignKey(
         Profile, 
         on_delete=models.CASCADE,
-        null=True,
-        blank=True
+        null=False,
+        blank=False
     )
     descricao = models.CharField(
         null=True, 
@@ -46,7 +47,8 @@ class Tarefa(models.Model):
         max_length=15,
         null=True,
         blank=True,
-        choices=STATUS
+        choices=STATUS,
+        default='nao_iniciada'
     )
 
     def __str__(self):

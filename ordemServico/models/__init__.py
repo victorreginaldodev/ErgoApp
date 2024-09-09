@@ -7,4 +7,3 @@ from .Repositorio import Repositorio
 from .Servico import Servico
 from .Tarefa import Tarefa
 from .OrdemServico import OrdemServico
-from .Anexo import Anexo

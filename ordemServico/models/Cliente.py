@@ -15,13 +15,6 @@ class Cliente(models.Model):
         ('caepf', 'CAEPF')
     )
 
-    GRAU_RISCO = (
-        (1, 'Grau 1'),
-        (2, 'Grau 2'),
-        (3, 'Grau 3'),
-        (4, 'Grau 4')
-    )
-
     nome = models.CharField(
         max_length=30,
         null=False,
@@ -30,7 +23,9 @@ class Cliente(models.Model):
     tipo_inscricao = models.CharField(
         max_length=10,
         choices=TIPO_INSCRICAO, 
-        default='cnpj'
+        default='cnpj',
+        null=False,
+        blank=False,
     )
     numero_inscricao = models.CharField(
         max_length=30, 
@@ -38,37 +33,42 @@ class Cliente(models.Model):
         null=False,
         blank=False
     )
-    ramo_atividade = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True
-    )
-    ramo_atividade_detalhado = models.CharField(
-        max_length=255,
-        blank=True, 
-        null=True
-    )
-    grau_risco = models.IntegerField(
-        choices=GRAU_RISCO
-    )
     tipo_cliente = models.CharField(
         choices=TIPO_CLIENTE, 
         default='gestao', 
-        max_length=10
-    )
-    cnae = models.CharField(
-        max_length=50,
+        max_length=10,
         null=False,
         blank=False
     )
     observacao = models.CharField(
-        blank=True, 
         null=True,
+        blank=True, 
         max_length=255,
     )
     data_criacao = models.DateTimeField(
         auto_now_add=True
     )
+
+    nome_representante = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+    )
+    setor_representante = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+    )
+    email_representante = models.EmailField(
+        null=True,
+        blank=True,
+    )
+    contato_representante = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+    )
+
 
     def __str__(self):
         return self.nome

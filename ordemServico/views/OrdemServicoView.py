@@ -21,14 +21,15 @@ def criar_ordem_servico(request):
 
         if ordem_servico_form.is_valid() and servico_formset.is_valid():
             ordem_servico = ordem_servico_form.save()
+            
             servico_formset.instance = ordem_servico
             servico_formset.save()
+
             return redirect(reverse('criar_ordem_servico'))
         else:
             context = {
                 'ordem_servico_form': ordem_servico_form,
                 'servico_formset': servico_formset,
-
             }
             return render(request, 'ordemServico/ordem_servico.html', context)
     else:
@@ -46,4 +47,4 @@ def criar_ordem_servico(request):
             'ordem_servico_form': ordem_servico_form,
             'servico_formset': servico_formset,
         }
-        return render(request, 'ordemServico/ordem_servico.html', context)
+        return render(request, 'ordemServico/ordem_servico.html', context)  

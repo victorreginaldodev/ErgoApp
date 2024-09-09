@@ -17,7 +17,7 @@ def criar_os_rapida(request):
         form = OsRapidaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(reverse('home'))
+            return redirect(reverse('criar_os_rapida'))
         else:
             context = {'form': form}
             return render(request, 'ordemServico/criar_os_rapida.html', context)

@@ -1,11 +1,19 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Sum, Count, Q, F
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from ordemServico.forms import OrdemServicoUpdateForm
-from ordemServico.models import OrdemServico
+from ordemServico.models import OrdemServico, Profile
+
+# Função que verifica se o usuário é 'Diretor', 'Administrativo' ou 'Líder Técnico'
+def verificar_tipo_usuario(user):
+    try:
+        return user.profile.role in [1, 2, 3]
+    except Profile.DoesNotExist:
+        return False
 
 @login_required
+@user_passes_test(verificar_tipo_usuario)
 def financeiro(request):
     if request.method == 'POST':
         # Debug para verificar se os dados estão sendo submetidos corretamente
@@ -44,7 +52,8 @@ def financeiro(request):
     )
 
     futuros_faturamentos = OrdemServico.objects.filter(concluida='nao', faturamento='nao')
-    faturados = OrdemServico.objects.filter(concluida='sim', faturamento='sim')
+
+    faturados = OrdemServico.objects.filter(faturamento='sim')
 
     # Calcula valores e contagens
     valor_total_concluidas = para_faturar.aggregate(Sum('valor'))['valor__sum'] or 0

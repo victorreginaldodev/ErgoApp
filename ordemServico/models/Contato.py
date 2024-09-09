@@ -21,11 +21,6 @@ class Contato(models.Model):
         null=True,
         blank=True,
     )
-    whatsapp = models.CharField(
-        max_length=30,
-        null=True,
-        blank=True,
-    )
     observacao = models.CharField(
         blank=True, 
         null=True,

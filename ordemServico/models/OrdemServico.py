@@ -46,6 +46,11 @@ class OrdemServico(models.Model):
         ('nao', 'Não'),
     )
 
+    TIPO_ANEXO = (
+        ('financeiro', 'FINANCEIRO'),
+        ('técnico', 'TÉCNICO')
+    )
+
     usuario_criador = models.CharField(
         max_length=50,
         null=True,
@@ -53,27 +58,26 @@ class OrdemServico(models.Model):
     )
     data_criacao = models.DateField(
         auto_now_add=True,
-        null=True,
-        blank=True
     )
     
     cliente = models.ForeignKey(
         Cliente, 
-        null=True,
-        blank=True,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False
     )
 
     valor = models.FloatField(
-        null=True, 
-        blank=True,
+        null=False, 
+        blank=False,
+        default=" "
     )
     forma_pagamento = models.CharField(
         max_length=30, 
         choices=FORMA_PAGAMENTO,
         default='boleto',
-        blank=True, 
-        null=True,
+        blank=False, 
+        null=False,
     )
     quantidade_parcelas = models.IntegerField(
         blank=True, 
@@ -81,24 +85,26 @@ class OrdemServico(models.Model):
         choices=QUANTIDADE_PARCELAS,
     )
     cobranca_imediata = models.CharField(
-        null=True, 
-        blank=True,
+        null=False, 
+        blank=False,
         choices=COBRANCA_IMEDIATA,
         max_length=5,
-        default=''
+        default='nao'
     )
     faturamento_1 = models.DateField(
         null=True,
         blank=True,
     )
     nome_contato_envio_nf = models.CharField(
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         max_length=50,
+        default=" "
     )
     contato_envio_nf = models.EmailField(
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
+        default=" "
     )
     observacao = models.CharField(
         null=True, 
@@ -118,7 +124,8 @@ class OrdemServico(models.Model):
        null=True,
        blank=True,
        choices=FATURAMENTO,
-       max_length=5
+       max_length=5,
+       default='nao'
     )
 
     numero_nf = models.IntegerField(

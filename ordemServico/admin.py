@@ -9,12 +9,7 @@ admin.site.register(RepositorioMiniOS)
 admin.site.register(MiniOS)
 admin.site.register(Repositorio)
 admin.site.register(Servico)
-
-# Configuração de Inline para Anexos
-class AnexoInline(admin.TabularInline):
-    model = Anexo
-    extra = 1
-    fields = ['nome_documento', 'anexo']
+admin.site.register(OrdemServico)
 
 # Configuração de Inline para Serviços
 class ServicoInline(admin.TabularInline):
@@ -24,18 +19,6 @@ class ServicoInline(admin.TabularInline):
 class TarefaInline(admin.TabularInline):
     model = Tarefa
     extra = 1
-
-# Configuração de Ordem de Serviço no Admin
-@admin.register(OrdemServico)
-class OrdemServicoAdmin(admin.ModelAdmin):
-    inlines = [ServicoInline, AnexoInline, TarefaInline]
-    list_display = ('cliente', 'valor', 'forma_pagamento', 'faturamento')
-    search_fields = ('cliente__nome', 'valor', 'numero_nf')
-
-# Registro separado para o modelo Anexo, se necessário
-@admin.register(Anexo)
-class AnexoAdmin(admin.ModelAdmin):
-    list_display = ('ordem_servico', 'nome_documento')
 
 @admin.register(Tarefa)
 class TarefaAdmin(admin.ModelAdmin):
