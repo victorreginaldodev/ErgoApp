@@ -25,14 +25,25 @@
                     </a>
                 </li>
                 <li>
-                    <!-- Financeiro (restrito para Líderes Técnicos e acima) -->
+                    <!-- Faturamentos desbloqueados (restrito para Líderes Técnicos e acima) -->
                     <a class="dropdown-item" 
                         href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'financeiro' %}{% endif %}"  
                         {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
                             onclick="showTechPermissionAlert(); return false;" 
                         {% endif %}>
-                        <i class="bi bi-cash-coin" style="margin-right: 4px;"></i>
-                        Financeiro
+                        <i class="bi bi-unlock" style="margin-right: 4px; font-weight: 600;"></i>
+                        Faturamentos desbloqueados
+                    </a>
+                </li>
+                <li></li>
+                    <!-- Monitor de faturamentos (restrito para Líderes Técnicos e acima) -->
+                    <a class="dropdown-item" 
+                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'monitoramento_financeiro' %}{% endif %}"  
+                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
+                            onclick="showTechPermissionAlert(); return false;" 
+                        {% endif %}>
+                        <i class="bi bi-graph-up" style="margin-right: 4px;"></i>
+                        Monitor financeiro
                     </a>
                 </li>
             </ul>

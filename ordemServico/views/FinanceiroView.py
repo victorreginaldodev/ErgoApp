@@ -51,34 +51,48 @@ def financeiro(request):
         faturamento='nao'  # Filtro para apenas ordens de serviço com faturamento "não"
     )
 
-    futuros_faturamentos = OrdemServico.objects.filter(concluida='nao', faturamento='nao')
-
-    faturados = OrdemServico.objects.filter(faturamento='sim')
+    cobrancas_imediatas = OrdemServico.objects.filter(cobranca_imediata = 'sim')
 
     # Calcula valores e contagens
     valor_total_concluidas = para_faturar.aggregate(Sum('valor'))['valor__sum'] or 0
     valor_total_para_faturar = para_faturar.aggregate(Sum('valor'))['valor__sum'] or 0
-    valor_total_futuros_faturamentos = futuros_faturamentos.aggregate(Sum('valor'))['valor__sum'] or 0
-    valor_total_faturados = faturados.aggregate(Sum('valor'))['valor__sum'] or 0
+    
 
     contagem_concluidas = para_faturar.count()
-    contagem_para_faturar = futuros_faturamentos.count()
-    contagem_futuros_faturamentos = futuros_faturamentos.count()
-    contagem_faturados = faturados.count()
+    contagem_para_faturar = para_faturar.count()
+    contagem_cobrancas_imediatas = cobrancas_imediatas.count()
 
     context = {
         'para_faturar': para_faturar,
-        'futuros_faturamentos': futuros_faturamentos,
-        'faturados': faturados,
         'valor_total_concluidas': valor_total_concluidas,
         'valor_total_para_faturar': valor_total_para_faturar,
-        'valor_total_futuros_faturamentos': valor_total_futuros_faturamentos,
-        'valor_total_faturados': valor_total_faturados,
         'contagem_concluidas': contagem_concluidas,
         'contagem_para_faturar': contagem_para_faturar,
-        'contagem_futuros_faturamentos': contagem_futuros_faturamentos,
-        'contagem_faturados': contagem_faturados,
         'form': form,
+        'cobrancas_imediatas': cobrancas_imediatas,
+        'contagem_cobrancas_imediatas': contagem_cobrancas_imediatas,
     }
 
     return render(request, 'ordemServico/financeiro.html', context)
+
+
+def monitoramento_financeiro(request):
+    futuros_faturamentos = OrdemServico.objects.filter(concluida='nao', faturamento='nao')
+    valor_total_futuros_faturamentos = futuros_faturamentos.aggregate(Sum('valor'))['valor__sum'] or 0
+    contagem_futuros_faturamentos = futuros_faturamentos.count()
+
+    faturados = OrdemServico.objects.filter(faturamento='sim')
+    valor_total_faturados = faturados.aggregate(Sum('valor'))['valor__sum'] or 0
+    contagem_faturados = faturados.count()
+
+    context = {
+        'futuros_faturamentos': futuros_faturamentos,
+        'valor_total_futuros_faturamentos': valor_total_futuros_faturamentos,
+        'contagem_futuros_faturamentos': contagem_futuros_faturamentos,
+        'faturados': faturados,
+        'valor_total_faturados': valor_total_faturados,
+        'contagem_faturados': contagem_faturados,
+        
+    }
+
+    return render(request, 'ordemServico/monitoramento_financeiro.html', context)

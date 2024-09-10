@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import inlineformset_factory
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Q, F
 
 from ordemServico.models import Servico, Tarefa
 from ordemServico.forms import ServicoUpdateForm, TarefaForm
@@ -24,6 +25,17 @@ def lider_tecnico(request):
     # Filtra serviços com tarefas em andamento e remove duplicatas
     servicos_em_andamento = Servico.objects.filter(status='em_andamento')
     qtd_servicos_em_andamento = servicos_em_andamento.count()
+
+    # Filtrar serviços onde todas as tarefas estão concluídas e o serviço possui tarefas, sem duplicação
+    # Filtrar serviços onde todas as tarefas estão concluídas e o serviço possui tarefas, sem duplicação
+    servicos_com_tarefas_concluidas = Servico.objects.prefetch_related('tarefa_set').annotate(
+        total_tarefas=Count('tarefa'),  # Contar todas as tarefas do serviço
+        total_tarefas_concluidas=Count('tarefa', filter=Q(tarefa__status='concluida'))  # Contar apenas as tarefas concluídas
+    ).filter(
+        total_tarefas__gt=0,  # Garantir que o serviço tenha pelo menos uma tarefa
+        total_tarefas=F('total_tarefas_concluidas')  # Verificar se todas as tarefas estão concluídas
+    ).distinct()  # Evitar a duplicação de serviços
+    qtd_servicos_com_tarefas_concluidas = servicos_com_tarefas_concluidas.count()
 
     # Filtra serviços com tarefas concluídas e remove duplicatas
     servicos_finalizados = Servico.objects.filter(status='concluida')
@@ -68,6 +80,9 @@ def lider_tecnico(request):
         
         'servicos_em_andamento': servicos_em_andamento,
         'qtd_servicos_em_andamento': qtd_servicos_em_andamento,
+
+        'servicos_com_tarefas_concluidas': servicos_com_tarefas_concluidas,
+        'qtd_servicos_com_tarefas_concluidas': qtd_servicos_com_tarefas_concluidas,
 
         'servicos_finalizados': servicos_finalizados,
         'qtd_servicos_finalizados': qtd_servicos_finalizados,
