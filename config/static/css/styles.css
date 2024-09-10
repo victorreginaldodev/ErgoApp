@@ -228,3 +228,8 @@ label {
 .tabela-tarefas thead th {
     background-color: #f2f2f2;
 }
+
+.dropdown-menu {
+    z-index: 1050; /* Certifique-se de que o valor é maior do que outros elementos que possam estar sobrepondo */
+    position: relative; /* Garante que o z-index funcione adequadamente */
+}
