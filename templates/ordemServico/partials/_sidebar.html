@@ -1,6 +1,5 @@
 <div class="sidebar">
 
-
     <div class="logo">
         <h1>ErgoApp</h1>
         <h5>Versão 2.0</h5>
@@ -8,21 +7,30 @@
 
     <div>
 
-        <div class="dropdown  dropdown-sidebar mb-3">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+        <div class="dropdown dropdown-sidebar mb-3">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuAdmin" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                <!-- <i class="bi bi-table" style="margin-right: 4px;"></i> -->
                 Administrativo
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuAdmin">
                 <li>
-                    <a class="dropdown-item" href="{% url 'criar_ordem_servico' %}">
+                    <!-- Criar ordem de serviço (restrito para Líderes Técnicos e acima) -->
+                    <a class="dropdown-item" 
+                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'criar_ordem_servico' %}{% endif %}"  
+                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
+                            onclick="showTechPermissionAlert(); return false;" 
+                        {% endif %}>
                         <i class="bi bi-pencil-square" style="margin-right: 4px;"></i>
                         Criar ordem de serviço
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="{% url 'financeiro' %}">
+                    <!-- Financeiro (restrito para Líderes Técnicos e acima) -->
+                    <a class="dropdown-item" 
+                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'financeiro' %}{% endif %}"  
+                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
+                            onclick="showTechPermissionAlert(); return false;" 
+                        {% endif %}>
                         <i class="bi bi-cash-coin" style="margin-right: 4px;"></i>
                         Financeiro
                     </a>
@@ -31,31 +39,47 @@
         </div>
 
         <div class="dropdown dropdown-sidebar mb-3">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuTech" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                <!-- <i class="fa-solid fa-helmet-safety" style="margin-right: 4px;"></i> -->
                 Área Técnica
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuTech">
                 <li>
-                    <a class="dropdown-item" href="{% url 'lider_tecnico' %}">
+                    <!-- Líder Técnico (restrito para Líderes Técnicos e acima) -->
+                    <a class="dropdown-item" 
+                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'lider_tecnico' %}{% endif %}"  
+                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
+                            onclick="showTechPermissionAlert(); return false;" 
+                        {% endif %}>
                         <i class="bi bi-person-gear" style="margin-right: 4px;"></i>
                         Líder técnico
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="{% url 'tecnico' %}">
+                    <!-- Técnico (restrito para Técnicos e Sub-Líderes Técnicos) -->
+                    <a class="dropdown-item" 
+                        href="{% if request.user.profile.role == 4 or request.user.profile.role == 5 %}{% url 'tecnico' %}{% endif %}" 
+                        {% if request.user.profile.role == 1 or request.user.profile.role == 2 or request.user.profile.role == 3 %} 
+                            onclick="showLeaderPermissionAlert(); return false;" 
+                        {% endif %}>
                         <i class="fa-solid fa-helmet-safety" style="margin-right: 4px;"></i>
                         Técnico
                     </a>
-                </li>
+
+                </li>   
                 <li>
-                    <a class="dropdown-item" href="{% url 'os_rapida' %}">
+                    <!-- Técnico (restrito para Técnicos e Sub-Líderes Técnicos) -->
+                    <a class="dropdown-item" 
+                        href="{% if request.user.profile.role == 4 or request.user.profile.role == 5 %}{% url 'os_rapida' %}{% endif %}" 
+                        {% if request.user.profile.role == 1 or request.user.profile.role == 2 or request.user.profile.role == 3 %} 
+                            onclick="showLeaderPermissionAlert(); return false;" 
+                        {% endif %}>
                         <i class="bi bi-lightning" style="margin-right: 4px;"></i>
                         OS Rápida
                     </a>
                 </li>
                 <li>
+                    <!-- Criar OS Rápida (acesso liberado para todos os usuários) -->
                     <a class="dropdown-item" href="{% url 'criar_os_rapida' %}">
                         <i class="bi bi-pencil-square" style="margin-right: 4px;"></i>
                         Criar OS Rápida
@@ -63,30 +87,6 @@
                 </li>
             </ul>
         </div>
-
-        <!-- <div class="dropdown dropdown-sidebar mb-3">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <i class="fa-solid fa-users" style="margin-right: 4px;"></i>
-                Clientes
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Cadastrar</a></li>
-                <li><a class="dropdown-item" href="{% url 'clientes' %}">Ver clientes</a></li>
-            </ul>
-        </div>
-
-        <div class="dropdown dropdown-sidebar mb-3">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <i class="fa-solid fa-list" style="margin-right: 4px;"></i>
-                Serviços
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Cadastrar</a></li>
-                <li><a class="dropdown-item" href="#">Ver Serviços</a></li>
-            </ul>
-        </div> -->
 
         <a href="{% url 'logout' %}" style="color: #fff; font-size: 14px;">
             <i class="fas fa-sign-out-alt" style="margin-right: 4px;"></i>
@@ -96,3 +96,14 @@
     </div>
 
 </div>
+
+<!-- Função JavaScript para mostrar alertas -->
+<script>
+    function showTechPermissionAlert() {
+        alert("Você não tem permissão para acessar esta área.");
+    }
+
+    function showLeaderPermissionAlert() {
+        alert("Atualmente, apenas usuários do tipo 'Técnico' podem acessar esta página, pois as informações são específicas ao trabalho dos técnicos. Estamos desenvolvendo uma solução que permitirá que você, como Líder ou Diretor, acompanhe o progresso das atividades dos colaboradores de forma mais detalhada.");
+    }
+</script>

@@ -22,7 +22,7 @@
         }
 
         body {
-            background-color: var(--cinza-claro);
+            background-color: var(--azul-secundario );
             display: flex;
             justify-content: center;
             align-items: center;
@@ -112,12 +112,42 @@
             margin-bottom: 10px;
             text-align: center;
         }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .login-container {
+                padding: 20px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .welcome-message h1 {
+                font-size: 22px;
+            }
+
+            .welcome-message p {
+                font-size: 16px;
+            }
+
+            input[type="text"], 
+            input[type="password"] {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="welcome-message">
-            <h1>Bem-vindo ao ErgoGroup App</h1>
+            <h1>Bem-vindo ao Ergogroup App</h1>
             <p>Faça seu login para continuar</p>
         </div>
         <form method="POST">
@@ -134,8 +164,8 @@
         {% if messages %}
         <div class="messages">
             <ul>
-                {% for message in messages %}
-                    {% if message.tags == 'error' %}
+                {% for message in   messages %}
+                    {% if message.tags == 'error' and 'login' in message %}
                         <li>{{ message }}</li>
                     {% endif %}
                 {% endfor %}

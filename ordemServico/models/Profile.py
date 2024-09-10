@@ -23,24 +23,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-    
-# @receiver(post_save, sender=User)
-# def created_user_profile(sender, instance, created, **kwargs):
-
-#     '''
-#     Cria um perfil de usuário automaticamente sempre que um novo usuário é criado.
-#     Verifica se o perfil já existe antes de criá-lo.
-#     '''
-#     if created:
-#         Profile.objects.get_or_create(user=instance)
-
-    
-   
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-
-#     ''' 
-#         Salva qualquer alteração no perfil automaticamente quando entramos no painel de perfil e alteramos qualquer dado.
-#     '''
-#     instance.profile.save()

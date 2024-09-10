@@ -8,11 +8,23 @@ def user_login(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
-            return redirect('criar_ordem_servico')
+            
+            # Verifica o tipo de usuário e redireciona para a página correspondente
+            user_profile = user.profile  # Acessa o perfil do usuário
+            
+            if user_profile.role in [1, 2]:  # Diretor ou Administrativo
+                return redirect('criar_ordem_servico')  # Redireciona para a página 'criar_ordem_servico'
+            elif user_profile.role == 3:  # Líder Técnico
+                return redirect('lider_tecnico')  # Redireciona para a página 'lider_tecnico'
+            elif user_profile.role in [4, 5]:  # Sub-Líder Técnico ou Técnico
+                return redirect('tecnico')  # Redireciona para a página 'tecnico'
+        
         else:
             messages.error(request, "Usuário ou senha inválidos!")
+    
     return render(request, 'ordemServico/login.html')
 
 # View de logout
