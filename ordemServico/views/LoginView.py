@@ -25,7 +25,7 @@ def user_login(request):
         else:
             messages.error(request, "Usuário ou senha inválidos!")
     
-    return render(request, 'ordemServico/login.html')
+    return render(request, 'ordemServico/Login.html')
 
 # View de logout
 def user_logout(request):

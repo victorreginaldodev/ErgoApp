@@ -1,7 +1,7 @@
 from django.db import models
 
 class Cliente(models.Model):
-    
+
     TIPO_CLIENTE = (
         ('gestao', 'Gestão'),
         ('avulso', 'Avulso'),
@@ -10,39 +10,53 @@ class Cliente(models.Model):
 
     TIPO_INSCRICAO = (
         ('cnpj', 'CNPJ'),
+        ('cpf', 'CPF'),
         ('cei', 'CEI'),
         ('cno', 'CNO'),
-        ('caepf', 'CAEPF')
+        ('caepf', 'CAEPF'),
     )
 
-    nome = models.CharField(
-        max_length=30,
-        null=False,
-        blank=False
+    CLIENTE_ATIVO = (
+        ('sim', 'SIM'),
+        ('nao', 'NÃO'),
     )
-    tipo_inscricao = models.CharField(
-        max_length=10,
-        choices=TIPO_INSCRICAO, 
-        default='cnpj',
+
+    # Razão social
+    nome = models.CharField(
+        max_length=100,
         null=False,
         blank=False,
     )
+    # Razão social
+    # Eu coloquei errado
+    nome_fantasia = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        default= ""
+    )
+    tipo_inscricao = models.CharField(
+        max_length=10,
+        choices=TIPO_INSCRICAO,
+        default='cnpj',
+        null=True,
+        blank=True,
+    )
     numero_inscricao = models.CharField(
-        max_length=30, 
-        unique=True,
-        null=False,
-        blank=False
+        max_length=30,
+        null=True,
+        blank=True
     )
     tipo_cliente = models.CharField(
-        choices=TIPO_CLIENTE, 
-        default='gestao', 
+        choices=TIPO_CLIENTE,
+        default='gestao',
         max_length=10,
-        null=False,
-        blank=False
+        null=True,
+        blank=True
     )
     observacao = models.CharField(
         null=True,
-        blank=True, 
+        blank=True,
         max_length=255,
     )
     data_criacao = models.DateTimeField(
@@ -67,6 +81,13 @@ class Cliente(models.Model):
         max_length=50,
         null=True,
         blank=True,
+    )
+    cliente_ativo = models.CharField(
+        null=True,
+        blank=True,
+        max_length=5,
+        choices=CLIENTE_ATIVO,
+        default='sim',
     )
 
 

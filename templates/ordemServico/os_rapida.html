@@ -91,8 +91,13 @@
                             <div class="accordion-header-items">
                                 <p>OS Nº:</p>{{ os_rapida.id }}
                             </div>
+
+                            <div class="accordion-header-items">
+                                <p>CLIENTE:</p>{{ os_rapida.cliente.nome }}
+                            </div>
+
                             <div class="accordion-header-items" style="border: none;">
-                                <p>Cliente:</p>{{ os_rapida.cliente.nome }}
+                                <p>NOME DO SERVIÇO:</p>{{ os_rapida.servico }}
                             </div>
                         </div>
 
@@ -104,19 +109,33 @@
 
                     <div class="accordion-body">
                         <div class="accordion-infos">
-                            <div class="row mb-4 mb-2">
+                            <div class="row mb-4">
                                 <div class="col-md-4">
                                     <label class="form-label">Cliente:</label>
                                     <p>{{ os_rapida.cliente.nome }}</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label">Serviço:</label>
-                                    <p>{{ os_rapida.servico }}</p>
-                                </div>
-                                <div class="col-md-4">
                                     <label class="form-label">Técnico responsável:</label>
                                     <p>{{ os_rapida.profile }}</p>
                                 </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <label class="form-label">Serviço:</label>
+                                    <p>{{ os_rapida.servico }}</p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Quantidade de serviços:</label>
+                                    <p style="width: 10vw;">{{ os_rapida.quantidade }}</p>
+                                </div>
+
+                                <div class="col-md-4" style="margin-left: -200px;">
+                                    <label class="form-label">Data de recebimento:</label>
+                                    <p style="width: 10vw;">{{ os_rapida.data_recebimento|date:"d/m/Y" }}</p>
+                                </div>
+
                             </div>
 
                             <div class="row mb-4">
@@ -133,11 +152,16 @@
                             <div class="d-flex gap-3 mb-4">
                                 <div class="form-group w-25">
                                     <label for="{{ formUpdate.status.id_for_label }}">Status:</label>
-                                    {{ formUpdate.status }}
+                                    <select name="status" id="id_status" class="form-select w-75">
+                                        <option value="nao_iniciado" {% if os_rapida.status == 'nao_iniciado' %}selected{% endif %}>NÃO INICIADO</option>
+                                        <option value="em_andamento" {% if os_rapida.status == 'em_andamento' %}selected{% endif %}>EM ANDAMENTO</option>
+                                        <option value="finalizada" {% if os_rapida.status == 'finalizada' %}selected{% endif %}>FINALIZADA</option>
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="{{ formUpdate.data_inico.id_for_label }}">Data de início:</label>
-                                    {{ formUpdate.data_inicio }}
+
+                                <div class="form-group" style="margin-left: -60px;">
+                                    <label for="{{ formUpdate.data_inicio.id_for_label }}">Data início:</label>
+                                    <p>{{ formUpdate.data_inicio }}</p>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">Atualizar</button>
@@ -166,8 +190,13 @@
                             <div class="accordion-header-items">
                                 <p>OS Nº:</p>{{ os_rapida.id }}
                             </div>
+
+                            <div class="accordion-header-items">
+                                <p>CLIENTE:</p>{{ os_rapida.cliente.nome }}
+                            </div>
+
                             <div class="accordion-header-items" style="border: none;">
-                                <p>Cliente:</p>{{ os_rapida.cliente.nome }}
+                                <p>NOME DO SERVIÇO:</p>{{ os_rapida.servico }}
                             </div>
                         </div>
 
@@ -179,19 +208,33 @@
 
                     <div class="accordion-body">
                         <div class="accordion-infos">
-                            <div class="row mb-4 mb-2">
+                            <div class="row mb-4">
                                 <div class="col-md-4">
                                     <label class="form-label">Cliente:</label>
                                     <p>{{ os_rapida.cliente.nome }}</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label">Serviço:</label>
-                                    <p>{{ os_rapida.servico }}</p>
-                                </div>
-                                <div class="col-md-4">
                                     <label class="form-label">Técnico responsável:</label>
                                     <p>{{ os_rapida.profile }}</p>
                                 </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <label class="form-label">Serviço:</label>
+                                    <p>{{ os_rapida.servico }}</p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Quantidade de serviços:</label>
+                                    <p style="width: 10vw;">{{ os_rapida.quantidade }}</p>
+                                </div>
+
+                                <div class="col-md-4" style="margin-left: -200px;">
+                                    <label class="form-label">Data de recebimento:</label>
+                                    <p style="width: 10vw;">{{ os_rapida.data_recebimento|date:"d/m/Y" }}</p>
+                                </div>
+
                             </div>
 
                             <div class="row mb-4">
@@ -207,16 +250,25 @@
                             <input type="hidden" name="os_rapida_id" value="{{ os_rapida.id }}">
                             <div class="d-flex gap-3 mb-4">
                                 <div class="form-group w-25">
-                                    <label for="{{ formUpdate.status.id_for_label }}">Status:</label>
-                                    {{ formUpdate.status }}
+                                    <label for="{{ formUpdate_naoIniciado.status.id_for_label }}">Status:</label>
+                                    <select name="status" id="id_status" class="form-select w-75">
+                                        <option value="nao_iniciado" {% if os_rapida.status == 'nao_iniciado' %}selected{% endif %}>NÃO INICIADO</option>
+                                        <option value="em_andamento" {% if os_rapida.status == 'em_andamento' %}selected{% endif %}>EM ANDAMENTO</option>
+                                        <option value="finalizada" {% if os_rapida.status == 'finalizada' %}selected{% endif %}>FINALIZADA</option>
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="{{ formUpdate.data_inico.id_for_label }}">Data de início:</label>
-                                    {{ formUpdate.data_inicio }}
+
+                                <div class="form-group style="margin-left: -60px;">
+                                    <label for="{{ formUpdate_naoIniciado.data_inicio.id_for_label }}">Data de início:</label>
+                                    <p
+                                        style="border: 1px solid #767171; padding: 10px 54px 10px 10px; border-radius: 8px; text-align: left;">
+                                        {{ os_rapida.data_inicio|date:"d/m/Y" }}
+                                    </p>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="{{ formUpdate.data_termino.id_for_label }}">Data de término:</label>
-                                    {{ formUpdate.data_termino }}
+                                    <p>{{ formUpdate.data_termino }}</p>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">Atualizar</button>
@@ -237,15 +289,18 @@
 
                 <h2 class="accordion-header" id="heading-{{ os_rapida.id }}">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapse-{{ servico.id }}" aria-expanded="false"
+                        data-bs-target="#collapse-{{ os_rapida.id }}" aria-expanded="false"
                         aria-controls="collapse-{{ os_rapida.id }}">
 
                         <div class="acordeao">
                             <div class="accordion-header-items">
                                 <p>OS Nº:</p>{{ os_rapida.id }}
                             </div>
-                            <div class="accordion-header-items" style="border: none;">
+                            <div class="accordion-header-items">
                                 <p>Cliente:</p>{{ os_rapida.cliente.nome }}
+                            </div>
+                            <div class="accordion-header-items" style="border: none;">
+                                <p>NOME DO SERVIÇO:</p>{{ os_rapida.servico }}
                             </div>
                         </div>
 
@@ -257,18 +312,31 @@
 
                     <div class="accordion-body">
                         <div class="accordion-infos">
-                            <div class="row mb-4 mb-2">
+                            <div class="row mb-4">
                                 <div class="col-md-4">
                                     <label class="form-label">Cliente:</label>
                                     <p>{{ os_rapida.cliente.nome }}</p>
                                 </div>
                                 <div class="col-md-4">
+                                    <label class="form-label">Técnico responsável:</label>
+                                    <p>{{ os_rapida.profile }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-4">
                                     <label class="form-label">Serviço:</label>
                                     <p>{{ os_rapida.servico }}</p>
                                 </div>
+
                                 <div class="col-md-4">
-                                    <label class="form-label">Técnico responsável:</label>
-                                    <p>{{ os_rapida.profile }}</p>
+                                    <label class="form-label">Quantidade de serviços:</label>
+                                    <p style="width: 10vw;">{{ os_rapida.quantidade }}</p>
+                                </div>
+
+                                <div class="col-md-4" style="margin-left: -200px;">
+                                    <label class="form-label">Data de recebimento:</label>
+                                    <p style="width: 10vw;">{{ os_rapida.data_recebimento|date:"d/m/Y" }}</p>
                                 </div>
                             </div>
 
@@ -282,10 +350,10 @@
                             <div class="row mb-4 mb-2">
                                 <div class="col-md-4">
                                     <label class="form-label">Status:</label>
-                                    <p>{{ os_rapida.get_status_display}}</p>
+                                    <p>{{ os_rapida.get_status_display }}</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label">Data de inicio:</label>
+                                    <label class="form-label">Data de início:</label>
                                     <p>{{ os_rapida.data_inicio|date:"d/m/Y" }}</p>
                                 </div>
                                 <div class="col-md-4">
@@ -301,81 +369,79 @@
     </div>
     {% endfor %}
 
-</div>
+    {% endblock %}
 
-{% endblock %}
+    {% block scripts %}
+    <script>
+        // script.js
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const accordionItems = document.querySelectorAll('.accordion-item');
 
-{% block scripts %}
-<script>
-    // script.js
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('searchInput');
-        const accordionItems = document.querySelectorAll('.accordion-item');
+            searchInput.addEventListener('input', function () {
+                const searchTerm = searchInput.value.toLowerCase();
 
-        searchInput.addEventListener('input', function () {
-            const searchTerm = searchInput.value.toLowerCase();
+                accordionItems.forEach(item => {
+                    const header = item.querySelector('.accordion-header').textContent.toLowerCase();
+                    if (header.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
 
-            accordionItems.forEach(item => {
-                const header = item.querySelector('.accordion-header').textContent.toLowerCase();
-                if (header.includes(searchTerm)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
+            // Código para mostrar/esconder o conteúdo do accordion
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', function () {
+                    const body = this.nextElementSibling;
+                    body.style.display = (body.style.display === 'block') ? 'none' : 'block';
+                });
+            });
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Obtém referências para os botões
+            const btnNaoIniciado = document.getElementById('nao_iniciado');
+            const btnEmAndamento = document.getElementById('em_andamento');
+            const btnConcluido = document.getElementById('concluido');
+
+            // Obtém referências para os elementos a serem exibidos/ocultados
+            const naoIniciado = document.getElementsByClassName('nao_iniciado');
+            const emAndamento = document.getElementsByClassName('em_andamento');
+            const concluido = document.getElementsByClassName('concluido');
+
+            function setElement(btn, elementsToShow, elementsToHide1, elementsToHide2) {
+                btn.addEventListener('click', function () {
+                    // Oculta os elementos que não devem ser exibidos
+                    hideElements(elementsToHide1);
+                    hideElements(elementsToHide2);
+
+                    // Mostra os elementos desejados
+                    showElements(elementsToShow);
+                });
+            }
+
+            function hideElements(elements) {
+                for (let elem of elements) {
+                    elem.style.display = 'none';
                 }
-            });
-        });
-
-        // Código para mostrar/esconder o conteúdo do accordion
-        document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', function () {
-                const body = this.nextElementSibling;
-                body.style.display = (body.style.display === 'block') ? 'none' : 'block';
-            });
-        });
-    });
-
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Obtém referências para os botões
-        const btnNaoIniciado = document.getElementById('nao_iniciado');
-        const btnEmAndamento = document.getElementById('em_andamento');
-        const btnConcluido = document.getElementById('concluido');
-
-        // Obtém referências para os elementos a serem exibidos/ocultados
-        const naoIniciado = document.getElementsByClassName('nao_iniciado');
-        const emAndamento = document.getElementsByClassName('em_andamento');
-        const concluido = document.getElementsByClassName('concluido');
-
-        function setElement(btn, elementsToShow, elementsToHide1, elementsToHide2) {
-            btn.addEventListener('click', function () {
-                // Oculta os elementos que não devem ser exibidos
-                hideElements(elementsToHide1);
-                hideElements(elementsToHide2);
-
-                // Mostra os elementos desejados
-                showElements(elementsToShow);
-            });
-        }
-
-        function hideElements(elements) {
-            for (let elem of elements) {
-                elem.style.display = 'none';
             }
-        }
 
-        function showElements(elements) {
-            for (let elem of elements) {
-                elem.style.display = 'block';
+            function showElements(elements) {
+                for (let elem of elements) {
+                    elem.style.display = 'block';
+                }
             }
-        }
 
-        // Configura os eventos de clique para cada botão
-        setElement(btnNaoIniciado, naoIniciado, emAndamento, concluido);
-        setElement(btnEmAndamento, emAndamento, naoIniciado, concluido);
-        setElement(btnConcluido, concluido, naoIniciado, emAndamento);
-    });
-</script>
+            // Configura os eventos de clique para cada botão
+            setElement(btnNaoIniciado, naoIniciado, emAndamento, concluido);
+            setElement(btnEmAndamento, emAndamento, naoIniciado, concluido);
+            setElement(btnConcluido, concluido, naoIniciado, emAndamento);
+        });
+    </script>
 
-{% endblock %}
+    {% endblock %}

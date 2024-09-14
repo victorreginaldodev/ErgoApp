@@ -22,4 +22,4 @@ class OsRapidaUpdateForm(forms.ModelForm):
                 'class': 'form-control', 
                 'class': 'form-control w-100'
             }),
-        }
+        }   

@@ -42,17 +42,22 @@ def os_rapida(request):
     if request.method == 'POST':
         os_rapida_id = request.POST.get('os_rapida_id')
         os_rapida = get_object_or_404(MiniOS, id=os_rapida_id)
+        
         formUpdate = OsRapidaUpdateForm(request.POST, instance=os_rapida)
 
         if formUpdate.is_valid():
-            formUpdate.save()
+            os_rapida = formUpdate.save(commit=False)
+
+            # Preserva a data de início se não for enviada no formulário
+            if not formUpdate.cleaned_data.get('data_inicio'):
+                os_rapida.data_inicio = MiniOS.objects.get(id=os_rapida_id).data_inicio
+
+            os_rapida.save()
             messages.success(request, 'OS rápida atualizada com sucesso.')
             return redirect('os_rapida')
-            
-    else:
-        messages.error(request, 'Erro ao tentar atualizar a OS rápida.')
-
-
+        else:
+            messages.error(request, 'Erro ao tentar atualizar a OS rápida.')
+    
     # Caso não tenha sido enviado, cria um novo formulário de atualização vazio para o template
     if formUpdate is None:
         formUpdate = OsRapidaUpdateForm()
