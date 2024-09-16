@@ -22,10 +22,9 @@ class Servico(models.Model):
         null=True,
         blank=True,
     )
-    descricao = models.CharField(
+    descricao = models.TextField(
         blank=True, 
         unique=True,
-        max_length=255,
     )
     status = models.CharField(
         max_length=15,

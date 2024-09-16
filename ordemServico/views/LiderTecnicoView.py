@@ -88,8 +88,7 @@ def lider_tecnico(request):
         'qtd_servicos_finalizados': qtd_servicos_finalizados,
 
         'formUpdate': formUpdate,
-        'form_tarefa': form_tarefa,
-        
+        'form_tarefa': form_tarefa,    
     }
 
     return render(request, 'ordemServico/lider_tecnico.html', context)

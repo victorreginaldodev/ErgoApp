@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Select, TextInput, DateInput
+from django.forms import ModelForm, Select, TextInput, DateInput, EmailInput, Textarea
 from django import forms
 from ordemServico.models import OrdemServico
 
@@ -9,17 +9,17 @@ class OrdemServicoForm(ModelForm):
         fields = '__all__'
         widgets = {
             'cliente': Select(attrs={
-                'class': 'form-select', 
+                'class': 'form-select w-75', 
                 'id': 'floatingSelect', 
                 'aria-label': 'Selecione um cliente',
-                'class': 'form-control w-75',
             }),
             'valor': TextInput(attrs={
-                'class': 'form-control',
-                'id': 'floatingInput',
+                'class': 'form-control w-100', 
+                'id': 'valorInput',
                 'aria-label': 'Valor',
-                'class': 'form-control w-100',
+                'placeholder': 'R$ 00,00',
             }),
+
             'cobranca_imediata': Select(attrs={
                 'class': 'form-select', 
                 'id': 'floatingSelect', 
@@ -33,10 +33,9 @@ class OrdemServicoForm(ModelForm):
                 'class': 'form-control w-100'
             }),
             'quantidade_parcelas': Select(attrs={
-                'class': 'form-select', 
+                'class': 'form-select  w-100', 
                 'id': 'floatingSelect', 
                 'aria-label': 'Quantidade de parcelas',
-                'class': 'form-control w-100'
             }),
             'faturamento_1': DateInput(attrs={
                 'class': 'form-control', 
@@ -49,11 +48,12 @@ class OrdemServicoForm(ModelForm):
                 'class': 'form-control',
                 'id': 'floatingInput',
             }),
-            'contato_envio_nf': TextInput(attrs={
+            'contato_envio_nf': EmailInput(attrs={
                 'class': 'form-control',
-                'id': 'floatingInput',
+                'id': 'emailInput',
+                'required': 'required',
             }),
-            'observacao': forms.Textarea(attrs={
+            'observacao': Textarea(attrs={
                 'class': 'form-control textarea-control w-100',
                 'style': 'height: 150px',
                 'id': 'floatingTextarea2',

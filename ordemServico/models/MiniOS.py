@@ -14,7 +14,7 @@ class MiniOS(models.Model):
     servico = models.ForeignKey(RepositorioMiniOS, on_delete=models.PROTECT)
     quantidade = models.IntegerField(null=True, blank=True, default=1)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    descricao = models.CharField(null=True, blank=True, max_length=255)
+    descricao = models.TextField(null=True, blank=True)
     data_recebimento = models.DateField(null=True, blank=True)
     data_inicio = models.DateField(null=True, blank=True)
     data_termino = models.DateField(null=True, blank=True)

@@ -68,9 +68,9 @@ class OrdemServico(models.Model):
     )
 
     valor = models.FloatField(
-        null=False, 
-        blank=False,
-        default=" "
+        null=True, 
+        blank=True,
+        default="0.0"
     )
     forma_pagamento = models.CharField(
         max_length=30, 
@@ -106,10 +106,9 @@ class OrdemServico(models.Model):
         blank=False,
         default=" "
     )
-    observacao = models.CharField(
+    observacao = models.TextField(
         null=True, 
-        blank=True,
-        max_length=255,
+        blank=True
     )
 
     concluida = models.CharField(

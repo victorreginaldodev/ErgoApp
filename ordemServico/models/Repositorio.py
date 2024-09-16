@@ -4,10 +4,9 @@ class Repositorio(models.Model):
     nome = models.CharField(
         max_length=100
     )
-    descricao = models.CharField(
+    descricao = models.TextField(
         null=True, 
-        blank=True,
-        max_length=255,
+        blank=True
     )
 
     def __str__(self):

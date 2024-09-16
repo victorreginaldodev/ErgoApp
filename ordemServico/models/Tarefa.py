@@ -30,7 +30,7 @@ class Tarefa(models.Model):
         null=False,
         blank=False
     )
-    descricao = models.CharField(
+    descricao = models.TextField(
         null=True, 
         blank=True,
         max_length=255

@@ -28,9 +28,7 @@ class Cliente(models.Model):
         blank=False,
     )
     # Razão social
-    # Eu coloquei errado
-    nome_fantasia = models.CharField(
-        max_length=100,
+    nome_fantasia = models.TextField(
         null=True,
         blank=True,
         default= ""
@@ -54,15 +52,13 @@ class Cliente(models.Model):
         null=True,
         blank=True
     )
-    observacao = models.CharField(
+    observacao = models.TextField(
         null=True,
         blank=True,
-        max_length=255,
     )
     data_criacao = models.DateTimeField(
         auto_now_add=True
     )
-
     nome_representante = models.CharField(
         max_length=50,
         null=True,

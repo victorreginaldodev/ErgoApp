@@ -7,10 +7,9 @@ class ServicoForm(forms.ModelForm):
         fields = ['repositorio', 'descricao'] 
         widgets = {
             'repositorio': forms.Select(attrs={
-                'class': 'form-select', 
+                'class': 'form-select w-50', 
                 'id': 'floatingSelect',
                 'aria-label': 'Selecione um repositório',
-                'class': 'form-control w-75',
             }),
             'descricao': forms.Textarea(attrs={
                 'class': 'form-control textarea-control w-100',

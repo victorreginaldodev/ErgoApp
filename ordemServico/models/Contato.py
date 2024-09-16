@@ -21,7 +21,7 @@ class Contato(models.Model):
         null=True,
         blank=True,
     )
-    observacao = models.CharField(
+    observacao = models.TextField(
         blank=True, 
         null=True,
         max_length=255,
