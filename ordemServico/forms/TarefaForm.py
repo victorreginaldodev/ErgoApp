@@ -6,18 +6,19 @@ class TarefaForm(ModelForm):
 
     class Meta:
         model = Tarefa
-        fields = ['servico', 'profile', 'descricao']
+        fields = [ 'profile', 'descricao']
         widgets = {
             'servico': Select(attrs={
                 'class': 'form-select', 
-                'aria-label': 'Selecione um serviço'
+                'aria-label': 'Selecione um colaborador',
+                'disabled': True
             }),
             'profile': Select(attrs={
                 'class': 'form-select', 
                 'aria-label': 'Selecione um colaborador'
             }),
             'descricao': Textarea(attrs={
-                'class': 'form-control textarea-control',
+                'class': 'form-control textarea-control w-100',
                 'style': 'height: 150px',
                 'placeholder': 'Descrição',
                 'rows': 3,  

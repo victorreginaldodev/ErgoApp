@@ -94,5 +94,24 @@ def lider_tecnico(request):
     return render(request, 'ordemServico/lider_tecnico.html', context)
 
 
-def relacionar_colaborador(request):
-    return render(request, 'ordemServico/relacionar_colaborador.html')
+def tarefas(request, servico_id):
+    servico = get_object_or_404(Servico, id=servico_id)
+
+    if request.method == 'POST':
+        form = TarefaForm(request.POST)
+        if form.is_valid():
+            tarefa = form.save(commit=False)
+            tarefa.servico = servico  # Aqui associamos o serviço
+            tarefa.save()
+            messages.success(request, 'Tarefa criada com sucesso.')
+            return redirect('tarefas', servico_id=servico.id)
+    else:
+        form = TarefaForm()
+
+    context = {
+        'servico': servico,
+        'form': form,
+    }
+
+    return render(request, 'ordemServico/tarefas.html', context)
+

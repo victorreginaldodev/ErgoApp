@@ -1,39 +1,9 @@
 {% extends 'ordemServico/base.html' %}
 {% load static %}
-{% block title %}Área Técnica - Líder {% endblock %}
+{% block title %} Tarefas {% endblock %}
 {% block content %}
 
 <div class="content page-title mb-5">
-    <!-- <div class="filters mb-5 mt-1">
-
-        <div class="card" style="border: none;">
-            <div class="card-body">
-                <h5 class="card-title">Novos serviços</h5>
-                <p class="card-text">
-                    Quantidade: <strong>{{ qtd_novos_servicos }}</strong>
-                </p>
-            </div>
-        </div>
-
-        <div class="card" style="border: none;">
-            <div class="card-body">
-                <h5 class="card-title">Serviços em andamento</h5>
-                <p class="card-text">
-                    Quantidade: <strong>{{ qtd_servicos_em_andamento }}</strong>
-                </p>
-            </div>
-        </div>
-
-        <div class="card" style="border: none;">
-            <div class="card-body">
-                <h5 class="card-title">Serviços finalizados</h5>
-                <p class="card-text">
-                    Quantidade: <strong></strong>
-                </p>
-            </div>
-        </div>
-
-    </div> -->
 
     <h3 class="fs-5 ms-5 mb-3">
         <i class="bi bi-person-gear" style="margin-right: 4px;"></i>
@@ -199,7 +169,7 @@
                             </div>
                         </div>
 
-                        <a href="{% url 'tecnico'%}" class="btn button py-2" target="_blank">Nova tarefa</a>
+                        <a href="{% url 'tarefas' servico.id %}" class="btn button py-2" target="_blank">Nova tarefa</a>
 
                         <!-- Button trigger modal -->
                         <!-- <button type="button" class="btn button py-2" data-bs-toggle="modal"
@@ -253,7 +223,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
     {% endfor %}
 
     {% for servico in servicos_em_andamento %}
@@ -359,6 +329,7 @@
                             </div>
                         </div>
 
+                        <a href="#">Nova tarefa</a>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn button py-2" data-bs-toggle="modal"
                             data-bs-target="#modal-{{ servico.id }}">
@@ -366,7 +337,7 @@
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="modal-{{ servico.id }}" data-bs-backdrop="static"
+                        <!-- <div class="modal fade" id="modal-{{ servico.id }}" data-bs-backdrop="static"
                             data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-{{ servico.id }}"
                             aria-hidden="true">
                             <div class="modal-dialog">
@@ -377,7 +348,6 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <!-- Formulário de tarefas -->
                                         <form method="post">
                                             {% csrf_token %}
                                             <input type="hidden" name="servico_id" value="{{ servico.id }}">
@@ -406,7 +376,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- Fim da Modal -->
+                        </div>  -->
+                        <!-- Fim da Modal -->
                     </div>
                 </div>
             </div>
@@ -468,7 +439,6 @@
                                     <p>{{ servico.ordem_servico.cliente.data_criacao|date:"d/m/Y" }}</p>
                                 </div>
 
-                                <!-- Formulário de atualização de serviço -->
                                 <!-- Formulário de atualização de serviço -->
                                 <form method="post" class="col-md-8 d-flex align-items-center">
                                     {% csrf_token %}
