@@ -22,27 +22,27 @@ def lider_tecnico(request):
     novos_servicos = Servico.objects.filter(status='em_espera')
     qtd_novos_servicos = novos_servicos.count()
 
-    # Filtra serviços com tarefas em andamento e remove duplicatas
+    # Filtra serviços com tarefas em andamento
     servicos_em_andamento = Servico.objects.filter(status='em_andamento')
     qtd_servicos_em_andamento = servicos_em_andamento.count()
 
-    # Filtrar serviços onde todas as tarefas estão concluídas e o serviço possui tarefas, sem duplicação
-    # Filtrar serviços onde todas as tarefas estão concluídas e o serviço possui tarefas, sem duplicação
-    servicos_com_tarefas_concluidas = Servico.objects.prefetch_related('tarefa_set').annotate(
-        total_tarefas=Count('tarefa'),  # Contar todas as tarefas do serviço
-        total_tarefas_concluidas=Count('tarefa', filter=Q(tarefa__status='concluida'))  # Contar apenas as tarefas concluídas
-    ).filter(
-        total_tarefas__gt=0,  # Garantir que o serviço tenha pelo menos uma tarefa
-        total_tarefas=F('total_tarefas_concluidas')  # Verificar se todas as tarefas estão concluídas
-    ).distinct()  # Evitar a duplicação de serviços
-    qtd_servicos_com_tarefas_concluidas = servicos_com_tarefas_concluidas.count()
-
-    # Filtra serviços com tarefas concluídas e remove duplicatas
+    # Filtra serviços concluídos
     servicos_finalizados = Servico.objects.filter(status='concluida')
     qtd_servicos_finalizados = servicos_finalizados.count()
 
+    # Filtra serviços que podem ser finalizados (onde todas as tarefas têm status 'concluída' e o serviço possui tarefas)
+    servicos_para_finalizar = Servico.objects.annotate(
+        total_tarefas=Count('tarefa'),  # Conta o número total de tarefas relacionadas ao serviço
+        tarefas_concluidas=Count('tarefa', filter=Q(tarefa__status='concluida'))  # Conta o número de tarefas com status 'concluída'
+    ).filter(
+        total_tarefas__gt=0,  # Garante que o serviço tenha pelo menos uma tarefa
+        total_tarefas=F('tarefas_concluidas'),  # Garante que todas as tarefas estão concluídas
+        status='em_andamento'  # Filtra apenas serviços com status 'em andamento'
+    )
 
-    # Formulário para atualizar o serviço
+    qtd_servicos_para_finalizar = servicos_para_finalizar.count()
+
+    # Lógica para formulário de atualização de serviço
     if request.method == 'POST' and 'formUpdate' in request.POST:
         servico_id = request.POST.get('servico_id')
         servico = get_object_or_404(Servico, id=servico_id)
@@ -57,7 +57,7 @@ def lider_tecnico(request):
     else:
         formUpdate = ServicoUpdateForm()
 
-    # Formulário para criar tarefas relacionadas ao serviço
+    # Lógica para formulário de criação de tarefas
     if request.method == 'POST' and 'formTarefa' in request.POST:
         servico_id = request.POST.get('servico_id')
         servico = get_object_or_404(Servico, id=servico_id)
@@ -81,14 +81,18 @@ def lider_tecnico(request):
         'servicos_em_andamento': servicos_em_andamento,
         'qtd_servicos_em_andamento': qtd_servicos_em_andamento,
 
-        'servicos_com_tarefas_concluidas': servicos_com_tarefas_concluidas,
-        'qtd_servicos_com_tarefas_concluidas': qtd_servicos_com_tarefas_concluidas,
-
         'servicos_finalizados': servicos_finalizados,
         'qtd_servicos_finalizados': qtd_servicos_finalizados,
+
+        'servicos_para_finalizar': servicos_para_finalizar,
+        'qtd_servicos_para_finalizar': qtd_servicos_para_finalizar,
 
         'formUpdate': formUpdate,
         'form_tarefa': form_tarefa,    
     }
 
     return render(request, 'ordemServico/lider_tecnico.html', context)
+
+
+def relacionar_colaborador(request):
+    return render(request, 'ordemServico/relacionar_colaborador.html')

@@ -9,7 +9,6 @@ class Servico(models.Model):
         ('em_andamento', 'EM ANDAMENTO'),
         ('concluida', 'CONCLUÍDA'),
     )
-
     ordem_servico = models.ForeignKey(
         OrdemServico, 
         on_delete=models.CASCADE,
@@ -24,7 +23,6 @@ class Servico(models.Model):
     )
     descricao = models.TextField(
         blank=True, 
-        unique=True,
     )
     status = models.CharField(
         max_length=15,
@@ -33,9 +31,9 @@ class Servico(models.Model):
         choices=STATUS,
         default='em_espera'
     )
-
-    class Meta:
-        unique_together = ('ordem_servico', 'repositorio')
-
+    data_conclusao = models.DateField(
+        null=True,
+        blank=True
+    )
     def __str__(self):
         return f'Ordem de serviço: {self.ordem_servico.id} | Cliente: {self.ordem_servico.cliente.nome}'
