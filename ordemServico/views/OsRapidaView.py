@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from ordemServico.forms import OsRapidaForm, OsRapidaUpdateForm
+from ordemServico.forms import OsRapidaForm, OsRapidaUpdateForm, OsRapidaFullUpdateForm
 from ordemServico.models import MiniOS
 
 @login_required
@@ -21,6 +21,32 @@ def criar_os_rapida(request):
         else:
             context = {'form': form}
             return render(request, 'ordemServico/criar_os_rapida.html', context)
+
+
+@login_required
+def editar_os_rapida(request, os_rapida_id):
+    # Busca a instância da OS Rápida pelo ID ou retorna um erro 404 se não for encontrada
+    os_rapida = get_object_or_404(MiniOS, id=os_rapida_id)
+
+    if request.method == 'POST':
+        # Se for um POST, preenche o formulário com os dados enviados e a instância atual
+        form = OsRapidaFullUpdateForm(request.POST, instance=os_rapida)
+        if form.is_valid():
+            # Se o formulário for válido, salva as alterações
+            form.save()
+            # Redireciona para uma página de sucesso ou qualquer outra view após salvar
+            return redirect('os_rapida')  # Supondo que você tenha uma lista de OS Rápidas
+    else:
+        # Se for uma requisição GET, pré-carrega o formulário com os dados da instância
+        form = OsRapidaFullUpdateForm(instance=os_rapida)
+
+    # Renderiza o template com o formulário pré-carregado
+    context = {
+        'form': form,
+        'os_rapida_id': os_rapida_id  # Passando o ID da OS Rápida para o template, se necessário
+    }
+    return render(request, 'ordemServico/editar_os_rapida.html', context)
+
 
 @login_required
 def os_rapida(request):

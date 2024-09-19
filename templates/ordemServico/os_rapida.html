@@ -117,7 +117,7 @@
                                 <div class="col-md-4">
                                     <label class="form-label">Técnico responsável:</label>
                                     <p>{{ os_rapida.profile }}</p>
-                                </div>
+                                </div>                                 
                             </div>
 
                             <div class="row mb-4">
@@ -165,6 +165,9 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">Atualizar</button>
+                            <a href="{% url 'editar_os_rapida' os_rapida.id %}" class="btn button py-2" target="_blank">
+                                Editar OS Rápida
+                            </a>
                         </form>
 
                     </div>
@@ -272,6 +275,9 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">Atualizar</button>
+                            <a href="{% url 'editar_os_rapida' os_rapida.id %}" class="btn button py-2" target="_blank">
+                                Editar OS Rápida
+                            </a>
                         </form>
                     </div>
                 </div>
@@ -361,6 +367,9 @@
                                     <p>{{ os_rapida.data_termino|date:"d/m/Y" }}</p>
                                 </div>
                             </div>
+                            <a href="{% url 'editar_os_rapida' os_rapida.id %}" class="btn button py-2" target="_blank">
+                                Editar OS Rápida
+                            </a>
                         </div>
                     </div>
                 </div>
