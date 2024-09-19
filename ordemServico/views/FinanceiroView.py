@@ -51,7 +51,7 @@ def financeiro(request):
         faturamento='nao'  # Filtro para apenas ordens de serviço com faturamento "não"
     )
 
-    cobrancas_imediatas = OrdemServico.objects.filter(cobranca_imediata = 'sim')
+    cobrancas_imediatas = OrdemServico.objects.filter(cobranca_imediata = 'sim', faturamento='nao')
 
     # Calcula valores e contagens
     valor_total_concluidas = para_faturar.aggregate(Sum('valor'))['valor__sum'] or 0
