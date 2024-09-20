@@ -12,5 +12,6 @@ urlpatterns = [
     path('', include('ordemServico.urls.OsRapidaUrls')),
     path('', include('ordemServico.urls.LoginUrls')),
     path('', include('ordemServico.urls.RegistroUrls')),
-    path('', include('ordemServico.urls.ClientesUrls'))
+    path('', include('ordemServico.urls.ClientesUrls')),
+    path('', include('ordemServico.urls.RepositorioUrls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

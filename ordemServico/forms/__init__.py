@@ -7,3 +7,4 @@ from .ServicoUpdateForm import ServicoUpdateForm
 from .TarefaForm import TarefaForm
 from .ClienteForm import ClienteForm
 from .ServicoForm import ServicoForm
+from .RepositorioForm import RepositorioForm

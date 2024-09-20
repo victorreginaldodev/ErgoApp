@@ -120,18 +120,15 @@
 
 <script>
     $(document).ready(function() {
-        // Função para aplicar a máscara de acordo com o tipo de cliente selecionado
         function applyMask() {
-            var tipoInscricao = $('#id_tipo_inscricao').val();  // Obtém o valor do select
-
-            // Remove qualquer máscara anterior
+            var tipoInscricao = $('#id_tipo_inscricao').val(); 
+    
             $('#id_numero_inscricao').inputmask('remove');
 
-            // Verifica o tipo de inscrição e aplica a máscara correspondente
             if (tipoInscricao === 'cpf') {
-                $('#id_numero_inscricao').inputmask('999.999.999-99');  // Máscara CPF
+                $('#id_numero_inscricao').inputmask('999.999.999-99');  
             } else if (tipoInscricao === 'cnpj') {
-                $('#id_numero_inscricao').inputmask('99.999.999/9999-99');  // Máscara CNPJ
+                $('#id_numero_inscricao').inputmask('99.999.999/9999-99'); 
             } else if (tipoInscricao === 'cei') {
                 $('#id_numero_inscricao').inputmask('99.999.99999/99');  // Máscara CEI
             } else if (tipoInscricao === 'cno') {
@@ -163,4 +160,3 @@
 
 
 {% endblock %}
-
