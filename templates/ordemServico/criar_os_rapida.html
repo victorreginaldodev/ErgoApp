@@ -9,6 +9,12 @@
         Criar nova ordem de serviço rápida
     </h3>
 
+    <div class="alert alert-warning alert-dismissible fade show ms-4 me-5" role="alert" style="margin-top: -30px;">
+        <strong style="font-weight: 700;">Atenção:</strong> Antes de iniciar a criação de uma OS Rápida, verifique se o cliente e todos os
+        serviços já estão cadastrados. Se for necessário cadastrar serviços ou clientes durante a criação da OS rápida, você precisará recarregar a página e perderá todo o seu progresso.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <form method="post" class="ms-4 me-5 mb-5">
 
         {% csrf_token %}

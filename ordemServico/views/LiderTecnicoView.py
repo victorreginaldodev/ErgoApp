@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import inlineformset_factory
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count, Q, F
 
-from ordemServico.models import Servico, Tarefa
+from ordemServico.models import Servico, Tarefa, Profile
 from ordemServico.forms import ServicoUpdateForm, TarefaForm
+
+# Função que verifica se o usuário é 'Diretor', 'Administrativo' ou 'Líder Técnico'
+def verificar_tipo_usuario(user):
+    try:
+        return user.profile.role in [1, 2, 3]
+    except Profile.DoesNotExist:
+        return False
 
 # Definindo o inlineformset_factory com os campos explicitamente
 FormTarefaInlineFormset = inlineformset_factory(
@@ -16,6 +23,7 @@ FormTarefaInlineFormset = inlineformset_factory(
     extra=1
 )
 
+@user_passes_test(verificar_tipo_usuario)
 @login_required
 def lider_tecnico(request):
     # Filtra serviços com status 'em_espera'
@@ -93,7 +101,8 @@ def lider_tecnico(request):
 
     return render(request, 'ordemServico/lider_tecnico.html', context)
 
-
+@user_passes_test(verificar_tipo_usuario)
+@login_required
 def tarefas(request, servico_id):
     servico = get_object_or_404(Servico, id=servico_id)
 
