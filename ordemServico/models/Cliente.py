@@ -21,17 +21,10 @@ class Cliente(models.Model):
         ('nao', 'NÃO'),
     )
 
-    # Razão social
     nome = models.CharField(
         max_length=100,
         null=False,
         blank=False,
-    )
-    # Razão social
-    nome_fantasia = models.TextField(
-        null=True,
-        blank=True,
-        default= ""
     )
     tipo_inscricao = models.CharField(
         max_length=10,
