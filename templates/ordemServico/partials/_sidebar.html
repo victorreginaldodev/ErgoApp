@@ -99,6 +99,22 @@
             </ul>
         </div>
 
+        <a href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'clientes' %}{% endif %}"  
+        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
+            onclick="showTechPermissionAlert(); return false;" 
+        {% endif %} style="color: #fff; font-size: 14px;">
+            <i class="fas fa-user-plus"></i>
+            Adicionar cliente
+        </a>
+
+        <a href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'repositorio' %}{% endif %}"  
+        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
+            onclick="showTechPermissionAlert(); return false;" 
+        {% endif %} style="color: #fff; font-size: 14px;">
+            <i class="fas fa-plus"></i>
+            Adicionar serviço
+        </a>
+
         <a href="{% url 'logout' %}" style="color: #fff; font-size: 14px;">
             <i class="fas fa-sign-out-alt" style="margin-right: 4px;"></i>
             Sair do sistema
