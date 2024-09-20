@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Select, TextInput, DateInput, EmailInput, Textarea
 from django import forms
-from ordemServico.models import OrdemServico
+from ordemServico.models import OrdemServico, Cliente  # Assumindo que Cliente é o modelo relacionado
 
 class OrdemServicoForm(ModelForm):
     
@@ -19,7 +19,6 @@ class OrdemServicoForm(ModelForm):
                 'aria-label': 'Valor',
                 'placeholder': 'R$ 00,00',
             }),
-
             'cobranca_imediata': Select(attrs={
                 'class': 'form-select', 
                 'id': 'floatingSelect', 
@@ -61,4 +60,9 @@ class OrdemServicoForm(ModelForm):
                 'rows': 8,
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(OrdemServicoForm, self).__init__(*args, **kwargs)
+        # Ordenar o queryset do cliente em ordem alfabética sem nenhum filtro
+        self.fields['cliente'].queryset = Cliente.objects.order_by('nome')
 

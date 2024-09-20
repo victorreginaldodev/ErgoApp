@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Select, NumberInput, Textarea, DateInput
-from ordemServico.models import MiniOS
+from ordemServico.models import MiniOS, Cliente, RepositorioMiniOS, Profile
 
 class OsRapidaForm(ModelForm):
     
@@ -37,3 +37,9 @@ class OsRapidaForm(ModelForm):
                 'class': 'form-control w-75'
             }), 
         }
+    
+    def __init__(self, *args, **kwargs):
+        super(OsRapidaForm, self).__init__(*args, **kwargs)
+        self.fields['cliente'].queryset = Cliente.objects.order_by('nome')
+        self.fields['servico'].queryset = RepositorioMiniOS.objects.order_by('nome')
+        self.fields['profile'].queryset = Profile.objects.order_by('user__username')

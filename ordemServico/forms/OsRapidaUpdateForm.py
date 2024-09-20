@@ -1,6 +1,6 @@
-from django.forms import ModelForm, Select, TextInput, Textarea, NumberInput, CheckboxInput, DateInput
+from django.forms import ModelForm, Select, DateInput
 from django import forms
-from ordemServico.models import MiniOS
+from ordemServico.models import MiniOS, Cliente, RepositorioMiniOS, Profile
 
 class OsRapidaUpdateForm(forms.ModelForm):
     
@@ -65,9 +65,15 @@ class OsRapidaFullUpdateForm(forms.ModelForm):
             }),
         }
 
-    # Este método ajuda a ajustar os valores dos campos de data para o formato correto
     def __init__(self, *args, **kwargs):
         super(OsRapidaFullUpdateForm, self).__init__(*args, **kwargs)
+        
+        # Ordenar os clientes e serviços em ordem alfabética
+        self.fields['cliente'].queryset = Cliente.objects.order_by('nome')
+        self.fields['servico'].queryset = RepositorioMiniOS.objects.order_by('nome')
+        self.fields['profile'].queryset = Profile.objects.order_by('user__username')
+        
+        # Ajustar os valores dos campos de data para o formato correto
         for field in ['data_recebimento', 'data_inicio', 'data_termino']:
             if self.instance and getattr(self.instance, field):
                 self.fields[field].initial = getattr(self.instance, field).strftime('%Y-%m-%d')

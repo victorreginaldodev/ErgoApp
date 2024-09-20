@@ -1,5 +1,5 @@
 from django import forms
-from ordemServico.models import Servico
+from ordemServico.models import Servico, Repositorio
 
 class ServicoForm(forms.ModelForm):
     class Meta:
@@ -19,3 +19,7 @@ class ServicoForm(forms.ModelForm):
                 'rows': 8,
             }),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super(ServicoForm, self).__init__(*args, **kwargs)
+        self.fields['repositorio'].queryset = Repositorio.objects.order_by('nome')

@@ -8,19 +8,16 @@ class TarefaUpdateForm(forms.ModelForm):
         fields = ['status', 'data_inicio', 'data_termino']
         widgets = {
             'status': Select(attrs={
-                'class': 'form-select', 
-                'class': 'form-control w-100',
+                'class': 'form-select form-control w-100',
             }),
 
             'data_inicio': forms.DateInput(attrs={
                 'type': 'date',
-                'class': 'form-control', 
                 'class': 'form-control w-100'
             }),
 
             'data_termino': forms.DateInput(attrs={
                 'type': 'date',
-                'class': 'form-control', 
                 'class': 'form-control w-100'
             }),
         }
