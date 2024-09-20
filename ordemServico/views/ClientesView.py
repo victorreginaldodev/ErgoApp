@@ -1,17 +1,16 @@
 from django.shortcuts import render, redirect
-from django.forms import inlineformset_factory
-from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
-from ordemServico.models import Cliente
+from ordemServico.forms import ClienteForm
 
 @login_required
 def clientes(request):
+    if request.method == 'POST':
+        form = ClienteForm(request.POST)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('clientes') 
+    else:
+        form = ClienteForm()  
 
-    clientes = Cliente.objects.all()
-    
-    contex = {
-        'clientes': clientes,
-    }
-
-    return render(request, 'ordemServico/clientes.html', contex)
+    return render(request, 'ordemServico/clientes.html', {'form': form})

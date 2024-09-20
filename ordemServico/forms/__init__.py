@@ -5,6 +5,5 @@ from .OsRapidaUpdateForm import OsRapidaUpdateForm, OsRapidaFullUpdateForm
 from .RegistroForm import UserRegisterForm, ProfileRegisterForm
 from .ServicoUpdateForm import ServicoUpdateForm
 from .TarefaForm import TarefaForm
-from .TarefaUpdateForm import TarefaUpdateForm
-from .ClienteForm import Clienteform
+from .ClienteForm import ClienteForm
 from .ServicoForm import ServicoForm
