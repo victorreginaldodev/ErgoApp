@@ -9,7 +9,7 @@ class OrdemServicoForm(ModelForm):
         fields = '__all__'
         widgets = {
             'cliente': Select(attrs={
-                'class': 'form-select w-75', 
+                'class': 'form-select w-100', 
                 'id': 'floatingSelect', 
                 'aria-label': 'Selecione um cliente',
             }),
@@ -20,16 +20,14 @@ class OrdemServicoForm(ModelForm):
                 'placeholder': 'R$ 00,00',
             }),
             'cobranca_imediata': Select(attrs={
-                'class': 'form-select', 
+                'class': 'form-select w-100', 
                 'id': 'floatingSelect', 
                 'aria-label': 'Cobrar imediatamente?',
-                'class': 'form-control w-100'
             }),
             'forma_pagamento': Select(attrs={
-                'class': 'form-select', 
+                'class': 'form-select w-100', 
                 'id': 'floatingSelect', 
                 'aria-label': 'Forma de pagamento',
-                'class': 'form-control w-100'
             }),
             'quantidade_parcelas': Select(attrs={
                 'class': 'form-select  w-100', 
@@ -37,11 +35,10 @@ class OrdemServicoForm(ModelForm):
                 'aria-label': 'Quantidade de parcelas',
             }),
             'faturamento_1': DateInput(attrs={
-                'class': 'form-control', 
+                'class': 'form-control w-100', 
                 'id': 'faturamento_1', 
                 'placeholder': 'Selecione a data', 
                 'type': 'date',
-                'class': 'form-control w-100'
             }),
             'nome_contato_envio_nf': TextInput(attrs={
                 'class': 'form-control',
@@ -50,7 +47,6 @@ class OrdemServicoForm(ModelForm):
             'contato_envio_nf': EmailInput(attrs={
                 'class': 'form-control',
                 'id': 'emailInput',
-                'required': 'required',
             }),
             'observacao': Textarea(attrs={
                 'class': 'form-control textarea-control w-100',
@@ -58,6 +54,12 @@ class OrdemServicoForm(ModelForm):
                 'id': 'floatingTextarea2',
                 'placeholder': 'Digite aqui as observações sobre o pagamento para a equipe financeira...',
                 'rows': 8,
+            }),
+            'data_criacao': DateInput(attrs={
+                'class': 'form-control w-100', 
+                'id': 'faturamento_1', 
+                'placeholder': 'Selecione a data', 
+                'type': 'date',
             }),
         }
 

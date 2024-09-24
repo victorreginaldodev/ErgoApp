@@ -57,7 +57,7 @@ class OrdemServico(models.Model):
         blank=True
     )
     data_criacao = models.DateField(
-        auto_now_add=True,
+        
     )
 
     cliente = models.ForeignKey(

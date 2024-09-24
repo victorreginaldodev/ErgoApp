@@ -85,7 +85,7 @@ class OrdemServicoAdmin(admin.ModelAdmin):
     # Exibir as informações detalhadas ao editar ou adicionar uma ordem de serviço
     fieldsets = (
         (None, {
-            'fields': ('usuario_criador', 'cliente', 'valor', 'forma_pagamento', 'quantidade_parcelas', 'cobranca_imediata')
+            'fields': ('usuario_criador', 'cliente', 'valor', 'forma_pagamento', 'quantidade_parcelas', 'cobranca_imediata', 'data_criacao')
         }),
         ('Faturamento', {
             'fields': ('faturamento_1', 'nome_contato_envio_nf', 'contato_envio_nf', 'faturamento', 'numero_nf', 'data_faturamento'),
@@ -95,6 +95,7 @@ class OrdemServicoAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
         }),
     )
+
 
 
 @admin.register(Profile)
