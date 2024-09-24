@@ -9,13 +9,13 @@ class RepositorioForm(ModelForm):
         widgets = {
             'nome': TextInput(attrs={
                 'class': 'form-control w-100',
-                'placeholder': 'Digite a razão social do cliente'
+                'placeholder': 'Digite o nome do serviço'
             }),
             'descricao': Textarea(attrs={
                 'class': 'form-control textarea-control w-100',
                 'style': 'height: 150px',
                 'id': 'floatingTextarea2',
-                'placeholder': 'Digite aqui algumas observações importantes sobre esse cliente',
+                'placeholder': 'Digite uma descrição para o serviço',
                 'rows': 8,
             }),
         }

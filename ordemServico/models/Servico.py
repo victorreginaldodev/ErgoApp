@@ -10,19 +10,19 @@ class Servico(models.Model):
         ('concluida', 'CONCLUÍDA'),
     )
     ordem_servico = models.ForeignKey(
-        OrdemServico, 
+        OrdemServico,
         on_delete=models.CASCADE,
         null=True,
         blank=True
     )
-    repositorio = models.ForeignKey( 
-        Repositorio, 
+    repositorio = models.ForeignKey(
+        Repositorio,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
     )
     descricao = models.TextField(
-        blank=True, 
+        blank=True,
     )
     status = models.CharField(
         max_length=15,
@@ -35,5 +35,6 @@ class Servico(models.Model):
         null=True,
         blank=True
     )
+
     def __str__(self):
         return f'Ordem de serviço: {self.ordem_servico.id} | Cliente: {self.ordem_servico.cliente.nome}'

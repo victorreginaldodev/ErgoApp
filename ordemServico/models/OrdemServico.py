@@ -4,7 +4,7 @@ from .Contato import Contato
 from .Profile import Profile
 
 class OrdemServico(models.Model):
-    
+
     FORMA_PAGAMENTO = (
         ('pix', 'PIX'),
         ('credito', 'Crédito'),
@@ -12,8 +12,8 @@ class OrdemServico(models.Model):
         ('boleto', 'Boleto'),
         ('transferencia', 'Transferência'),
         ('dinheiro', 'Dinheiro'),
-        ('check', 'Check'), 
-        ('outro', 'Outro')      
+        ('check', 'Check'),
+        ('outro', 'Outro')
     )
 
     COBRANCA_IMEDIATA = (
@@ -59,33 +59,33 @@ class OrdemServico(models.Model):
     data_criacao = models.DateField(
         auto_now_add=True,
     )
-    
+
     cliente = models.ForeignKey(
-        Cliente, 
+        Cliente,
         on_delete=models.PROTECT,
         null=False,
         blank=False
     )
 
     valor = models.FloatField(
-        null=True, 
+        null=True,
         blank=True,
         default="0.0"
     )
     forma_pagamento = models.CharField(
-        max_length=30, 
+        max_length=30,
         choices=FORMA_PAGAMENTO,
         default='boleto',
-        blank=False, 
+        blank=False,
         null=False,
     )
     quantidade_parcelas = models.IntegerField(
-        blank=True, 
+        blank=True,
         null=True,
         choices=QUANTIDADE_PARCELAS,
     )
     cobranca_imediata = models.CharField(
-        null=False, 
+        null=False,
         blank=False,
         choices=COBRANCA_IMEDIATA,
         max_length=5,
@@ -107,7 +107,7 @@ class OrdemServico(models.Model):
         default=" "
     )
     observacao = models.TextField(
-        null=True, 
+        null=True,
         blank=True
     )
 
@@ -119,7 +119,7 @@ class OrdemServico(models.Model):
         blank=True
     )
 
-    faturamento = models.CharField(  
+    faturamento = models.CharField(
        null=True,
        blank=True,
        choices=FATURAMENTO,
@@ -128,11 +128,11 @@ class OrdemServico(models.Model):
     )
 
     numero_nf = models.IntegerField(
-        null=True, 
+        null=True,
         blank=True
     )
     data_faturamento = models.DateField(
-        null=True, 
+        null=True,
         blank=True
     )
 
