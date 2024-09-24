@@ -21,7 +21,8 @@ body {
     left: 0;
     height: 100%;   
     width: 180px;
-    background: linear-gradient(135deg, var(--azul-secundario) 0%, var(--azul-principal) 100%);
+    /* background: linear-gradient(135deg, #5ec5e7 10%, var(--azul-principal) 90%); */
+    background: linear-gradient(135deg, var(--azul-secundario) 10%, var(--azul-principal) 90%); 
     padding-top: 30px;
     padding-left: 10px;
 }
@@ -31,26 +32,16 @@ body {
     margin-bottom: 2.1rem;
 }
 
-.logo h1 {
-    font-size: 22px;
-    color: var(--branco);
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-   
-}
-
-.logo h5 {
-    font-size: 0.7rem;
-    color: var(--branco);
-    font-weight: 300;
-    
+.logo img {
+    width: 7vw; 
 }
 
 .dropdown-sidebar button,
 .dropdown-sidebar button:hover,
 .dropdown-sidebar button:focus,
 .dropdown-sidebar button:active {
-    color: var(--branco);
+    color: #000;
+    font-weight: 500;
     outline: none;
     box-shadow: none;
     background-color: inherit;
@@ -58,7 +49,8 @@ body {
 }
 
 .sidebar a {
-    color: var(--cinza);
+    color: #000;
+    font-weight: 500;
     text-decoration: none;
     display: block;
     padding: 12px;

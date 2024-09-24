@@ -1,6 +1,6 @@
 {% extends 'ordemServico/base.html' %}
 {% load static %}
-{% block title %} Tarefas {% endblock %}
+{% block title %} Líder Técnica {% endblock %}
 {% block content %}
 
 <div class="content page-title mb-5">
@@ -18,7 +18,7 @@
                 <!-- <button class="btn button" type="submit" id="searchButton">Pesquisar</button> -->
             </div>
         </form>
-        
+
         <div class="ms-3 mb-3">
 
             <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="novos_servicos">
@@ -31,7 +31,7 @@
 
             <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="para_finalizar">
                 Para finalizar: {{ qtd_servicos_para_finalizar }}
-            </button>            
+            </button>
 
             <button class="btn button px-3 py-1 mt-2 visualizar-btn" id="finalizados">
                 Finalizados: {{ qtd_servicos_finalizados }}
@@ -63,6 +63,7 @@
                                 <p>SERVIÇO:</p>{{ servico.repositorio }}
                             </div>
                         </div>
+
                     </button>
                 </h2>
 
@@ -106,9 +107,12 @@
                                         <div class="d-flex align-items-center">
 
                                             <select name="status" id="id_status" class="form-select w-75">
-                                                <option value="nao_iniciado" {% if servico.status == 'em_espera' %}selected{% endif %}>NÃO INICIADO</option>
-                                                <option value="em_andamento" {% if servico.status == 'em_andamento' %}selected{% endif %}>EM ANDAMENTO</option>
-                                                <option value="finalizada" {% if servico.status == 'concluida' %}selected{% endif %}>CONCLUÍDA</option>
+                                                <option value="nao_iniciado" {% if servico.status=='em_espera'
+                                                    %}selected{% endif %}>NÃO INICIADO</option>
+                                                <option value="em_andamento" {% if servico.status=='em_andamento'
+                                                    %}selected{% endif %}>EM ANDAMENTO</option>
+                                                <option value="finalizada" {% if servico.status=='concluida'
+                                                    %}selected{% endif %}>CONCLUÍDA</option>
                                             </select>
 
                                             <button class="btn btn-success ms-2" type="submit" name="formUpdate">
@@ -130,9 +134,11 @@
                             <!-- Tabela de tarefas relacionadas -->
                             <div class="mb-4">
                                 <label class="form-label">Tarefas relacionadas:</label>
-                                <table class="table" style="border-collapse: collapse; border: 1px solid var(--cinza); border-radius: 12px; width: 100%; overflow: hidden;">
+                                <table class="table"
+                                    style="border-collapse: collapse; border: 1px solid var(--cinza); border-radius: 12px; width: 100%; overflow: hidden;">
                                     <thead style="background-color: var(--cinza-clarinho); border-radius: 12px;">
-                                        <tr style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
+                                        <tr
+                                            style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
                                             <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza);">
                                                 Nome do Colaborador
                                             </th>
@@ -223,7 +229,7 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
     {% endfor %}
 
     {% for servico in servicos_em_andamento %}
@@ -279,7 +285,7 @@
                                     <p>{{ servico.ordem_servico.cliente.data_criacao|date:"d/m/Y" }}</p>
                                 </div>
                             </div>
-                            
+
                             <div class="row mb-4">
                                 <div class="col-md-12">
                                     <label class="form-label">Observações:</label>
@@ -290,9 +296,11 @@
                             <!-- Tabela de tarefas relacionadas -->
                             <div class="mb-4">
                                 <label class="form-label">Tarefas relacionadas:</label>
-                                <table class="table" style="border-collapse: collapse; border: 1px solid var(--cinza); border-radius: 12px; width: 100%; overflow: hidden;">
+                                <table class="table"
+                                    style="border-collapse: collapse; border: 1px solid var(--cinza); border-radius: 12px; width: 100%; overflow: hidden;">
                                     <thead style="background-color: var(--cinza-clarinho); border-radius: 12px;">
-                                        <tr style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
+                                        <tr
+                                            style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
                                             <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza);">
                                                 Nome do Colaborador
                                             </th>
@@ -443,34 +451,40 @@
                                 <form method="post" class="col-md-8 d-flex align-items-center">
                                     {% csrf_token %}
                                     <input type="hidden" name="servico_id" value="{{ servico.id }}">
-                                
+
                                     <!-- Exibe erros do formulário -->
                                     {% if formUpdate.errors %}
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                {% for field, errors in formUpdate.errors.items %}
-                                                    <li>{{ field }}: {{ errors }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            {% for field, errors in formUpdate.errors.items %}
+                                            <li>{{ field }}: {{ errors }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
                                     {% endif %}
-                                
+
                                     <!-- Campo de status -->
                                     <div class="form-group me-2">
                                         <label for="{{ formUpdate.status.id_for_label }}" class="mb-2">Status:</label>
                                         <select name="status" id="id_status" class="form-select w-100">
-                                            <option value="em_espera" {% if servico.status == 'em_espera' %}selected{% endif %}>EM ESPERA</option>
-                                            <option value="em_andamento" {% if servico.status == 'em_andamento' %}selected{% endif %}>EM ANDAMENTO</option>
-                                            <option value="concluida" {% if servico.status == 'concluida' %}selected{% endif %}>CONCLUÍDA</option>
+                                            <option value="em_espera" {% if servico.status=='em_espera' %}selected{%
+                                                endif %}>EM ESPERA</option>
+                                            <option value="em_andamento" {% if servico.status=='em_andamento'
+                                                %}selected{% endif %}>EM ANDAMENTO</option>
+                                            <option value="concluida" {% if servico.status=='concluida' %}selected{%
+                                                endif %}>CONCLUÍDA</option>
                                         </select>
                                     </div>
-                                
+
                                     <!-- Campo de data de conclusão -->
                                     <div class="form-group me-2">
-                                        <label for="{{ formUpdate.data_conclusao.id_for_label }}" class="mb-2">Data de Conclusão:</label>
-                                        <input type="date" name="data_conclusao" id="id_data_conclusao" class="form-control w-100" value="{{ servico.data_conclusao|date:"Y-m-d" }}">
+                                        <label for="{{ formUpdate.data_conclusao.id_for_label }}" class="mb-2">Data de
+                                            Conclusão:</label>
+                                        <input type="date" name="data_conclusao" id="id_data_conclusao"
+                                            class="form-control w-100" value="{{ servico.data_conclusao|date:" Y-m-d"
+                                            }}">
                                     </div>
-                                
+
                                     <!-- Botão de atualização -->
                                     <div class="form-group" style="margin-top: 22px;">
                                         <button class="btn btn-success" type="submit" name="formUpdate">
@@ -490,9 +504,11 @@
                             <!-- Tabela de tarefas relacionadas -->
                             <div class="mb-4">
                                 <label class="form-label">Tarefas relacionadas:</label>
-                                <table class="table" style="border-collapse: collapse; border: 1px solid var(--cinza); border-radius: 12px; width: 100%; overflow: hidden;">
+                                <table class="table"
+                                    style="border-collapse: collapse; border: 1px solid var(--cinza); border-radius: 12px; width: 100%; overflow: hidden;">
                                     <thead style="background-color: var(--cinza-clarinho); border-radius: 12px;">
-                                        <tr style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
+                                        <tr
+                                            style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
                                             <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza);">
                                                 Nome do Colaborador
                                             </th>
@@ -566,8 +582,8 @@
                                             </div>
                                             {% endfor %}
 
-                                            <button class="btn btn-success" type="submit"
-                                                name="formTarefa">Adicionar Tarefas</button>
+                                            <button class="btn btn-success" type="submit" name="formTarefa">Adicionar
+                                                Tarefas</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -582,7 +598,7 @@
             </div>
         </div>
     </div>
-    {% endfor %}    
+    {% endfor %}
 
     {% for servico in servicos_finalizados %}
     <div class="px-5 para_faturar" style="display: none;">
@@ -643,7 +659,7 @@
                                     <label class="form-label">Data de conclusão:</label>
                                     <p>{{ servico.data_conclusao|date:"d/m/Y" }}</p>
                                 </div>
-                                
+
                                 <div class="col-md-4">
                                     <label class="form-label">Status:</label>
                                     <p>{{ servico.get_status_display }}</p>
@@ -673,11 +689,9 @@
                                     font-size: 12px;
                                     text-transform: uppercase;
                                     text-align: left; font-weight: 700;">
-                                            <th scope="col"
-                                                style="padding: 8px; border-right: 1px solid var(--cinza);">
+                                            <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza);">
                                                 Nome do Colaborador</th>
-                                            <th scope="col"
-                                                style="padding: 8px; border-right: 1px solid var(--cinza);">
+                                            <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza);">
                                                 Descrição da Tarefa</th>
                                             <th scope="col" style="padding: 8px; width: 15%;">Status</th>
                                         </tr>
@@ -802,4 +816,4 @@
         });
 
     </script>
-{% endblock %}
+    {% endblock %}

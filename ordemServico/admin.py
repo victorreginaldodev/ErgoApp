@@ -1,48 +1,195 @@
 from django.contrib import admin
 from .models import *
 
-# Registrar outros modelos
-admin.site.register(Profile)
-admin.site.register(Contato)
-admin.site.register(Cliente)
-admin.site.register(RepositorioMiniOS)
-admin.site.register(MiniOS)
-admin.site.register(Repositorio)
-admin.site.register(Servico)
-admin.site.register(OrdemServico)
 
-# Configuração de Inline para Serviços
-class ServicoInline(admin.TabularInline):
-    model = Servico
-    extra = 1
+@admin.register(Cliente)
+class ClienteAdmin(admin.ModelAdmin):
+    # Exibir essas colunas na listagem
+    list_display = ('nome', 'tipo_cliente', 'tipo_inscricao', 'numero_inscricao', 'cliente_ativo')
+    
+    # Adicionar campos de pesquisa
+    search_fields = ('nome', 'numero_inscricao')
+    
+    # Adicionar filtros laterais
+    list_filter = ('tipo_cliente', 'tipo_inscricao', 'cliente_ativo', 'data_criacao')
+    
+    # Exibir as informações detalhadas ao editar ou adicionar um cliente
+    fieldsets = (
+        (None, {
+            'fields': ('nome', 'tipo_cliente', 'tipo_inscricao', 'numero_inscricao')
+        }),
+        ('Representante', {
+            'fields': ('nome_representante', 'setor_representante', 'email_representante', 'contato_representante'),
+            'classes': ('collapse',),
+        }),
+        ('Outros', {
+            'fields': ('observacao', 'cliente_ativo'),
+        }),
+    )
 
-class TarefaInline(admin.TabularInline):
-    model = Tarefa
-    extra = 1
+
+@admin.register(Contato)
+class ContatoAdmin(admin.ModelAdmin):
+    # Exibir essas colunas na listagem
+    list_display = ('nome', 'cliente', 'email', 'telefone')
+    
+    # Adicionar campos de pesquisa
+    search_fields = ('nome', 'cliente__nome', 'email', 'telefone')
+    
+    # Exibir as informações detalhadas ao editar ou adicionar um contato
+    fieldsets = (
+        (None, {
+            'fields': ('cliente', 'nome', 'email', 'telefone')
+        }),
+        ('Observações', {
+            'fields': ('observacao',),
+            'classes': ('collapse',),
+        }),
+    )
+
+
+@admin.register(MiniOS)
+class MiniOSAdmin(admin.ModelAdmin):
+    # Exibir essas colunas na listagem
+    list_display = ('cliente', 'servico', 'quantidade', 'profile', 'status', 'data_recebimento', 'data_inicio', 'data_termino')
+    
+    # Adicionar campos de pesquisa
+    search_fields = ('cliente__nome', 'servico__nome', 'profile__nome')
+    
+    # Adicionar filtros laterais
+    list_filter = ('status', 'cliente', 'profile')
+    
+    # Exibir as informações detalhadas ao editar ou adicionar um MiniOS
+    fieldsets = (
+        (None, {
+            'fields': ('cliente', 'servico', 'quantidade', 'profile', 'descricao')
+        }),
+        ('Datas', {
+            'fields': ('data_recebimento', 'data_inicio', 'data_termino'),
+        }),
+        ('Status', {
+            'fields': ('status',),
+            'classes': ('collapse',),
+        }),
+    )
+
+
+@admin.register(OrdemServico)
+class OrdemServicoAdmin(admin.ModelAdmin):
+    # Exibir essas colunas na listagem
+    list_display = ('cliente', 'valor', 'forma_pagamento', 'quantidade_parcelas', 'cobranca_imediata', 'faturamento')
+    
+    # Adicionar campos de pesquisa
+    search_fields = ('cliente__nome',)
+    
+    # Exibir as informações detalhadas ao editar ou adicionar uma ordem de serviço
+    fieldsets = (
+        (None, {
+            'fields': ('usuario_criador', 'cliente', 'valor', 'forma_pagamento', 'quantidade_parcelas', 'cobranca_imediata')
+        }),
+        ('Faturamento', {
+            'fields': ('faturamento_1', 'nome_contato_envio_nf', 'contato_envio_nf', 'faturamento', 'numero_nf', 'data_faturamento'),
+        }),
+        ('Outros Detalhes', {
+            'fields': ('observacao', 'concluida'),
+            'classes': ('collapse',),
+        }),
+    )
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    # Exibir essas colunas na listagem
+    list_display = ('user', 'role',)
+    
+    # Adicionar campos de pesquisa
+    search_fields = ['user__username']  # Corrigido: agora é uma lista
+
+    # Exibir as informações detalhadas ao editar ou adicionar um profile
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'role', 'cpf', 'profile_picture')
+        }),
+        ('Tokens e Outras Informações', {
+            'fields': ('token', 'created'),
+            'classes': ('collapse',),
+        }),
+    )
+
+
+@admin.register(Repositorio)
+class RepositorioAdmin(admin.ModelAdmin):
+    # Exibir essas colunas na listagem
+    list_display = ('nome', 'descricao')
+    
+    # Adicionar campos de pesquisa
+    search_fields = ('nome', 'descricao')
+
+    # Exibir as informações detalhadas ao editar ou adicionar um repositório
+    fieldsets = (
+        (None, {
+            'fields': ('nome', 'descricao')
+        }),
+    )
+
+
+@admin.register(RepositorioMiniOS)
+class RepositorioMiniOSAdmin(admin.ModelAdmin):
+    # Exibir essas colunas na listagem
+    list_display = ('nome', 'descricao',)
+    
+    # Adicionar campos de pesquisa
+    search_fields = ('nome', 'descricao',)
+    
+    # Exibir as informações detalhadas ao editar ou adicionar um repositório MiniOS
+    fieldsets = (
+        (None, {
+            'fields': ('nome', 'descricao')
+        }),
+    )
+
+
+@admin.register(Servico)
+class ServicoAdmin(admin.ModelAdmin):
+    # Exibir essas colunas na listagem
+    list_display = ('ordem_servico', 'repositorio', 'status', 'data_conclusao')  # Corrigido: Removidos campos inválidos
+    
+    # Adicionar campos de pesquisa
+    search_fields = ('ordem_servico__id', 'ordem_servico__cliente__nome', 'repositorio__nome',)
+    
+    # Adicionar filtros laterais
+    list_filter = ('status', 'ordem_servico__cliente',)
+    
+    # Exibir as informações detalhadas ao editar ou adicionar um serviço
+    fieldsets = (
+        (None, {
+            'fields': ('ordem_servico', 'repositorio', 'descricao')
+        }),
+        ('Status e Datas', {
+            'fields': ('status', 'data_conclusao'),
+            'classes': ('collapse',),
+        }),
+    )
+
 
 @admin.register(Tarefa)
 class TarefaAdmin(admin.ModelAdmin):
-    list_display = ('servico', 'profile', 'descricao', 'data_inicio', 'data_termino')
-    search_fields = ('descricao', 'profile__nome')
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        
-        # Defina a ordem de serviço como None inicialmente
-        ordem_servico_id = None
-
-        # Se estiver editando uma tarefa existente, pegue a ordem de serviço associada ao serviço da tarefa
-        if obj and obj.servico:
-            ordem_servico_id = obj.servico.ordem_servico.id
-        elif request.GET.get('ordem_servico'):
-            # Se estiver criando uma nova tarefa com uma ordem de serviço especificada na URL
-            ordem_servico_id = request.GET.get('ordem_servico')
-
-        if ordem_servico_id:
-            # Filtrar os serviços pela ordem de serviço correspondente
-            form.base_fields['servico'].queryset = Servico.objects.filter(ordem_servico_id=ordem_servico_id)
-        else:
-            # Não mostrar serviços, caso não tenha a ordem de serviço definida
-            form.base_fields['servico'].queryset = Servico.objects.none()
-
-        return form
+    # Exibir essas colunas na listagem
+    list_display = ('servico', 'profile', 'descricao', 'data_inicio', 'data_termino', 'status')
+    
+    # Adicionar campos de pesquisa
+    search_fields = ('servico__descricao', 'profile__user__username', 'descricao')
+    
+    # Adicionar filtros laterais
+    list_filter = ('status', 'data_inicio', 'data_termino', 'servico', 'profile')
+    
+    # Exibir as informações detalhadas ao editar ou adicionar uma tarefa
+    fieldsets = (
+        (None, {
+            'fields': ('ordem_servico', 'servico', 'profile', 'descricao')
+        }),
+        ('Status e Datas', {
+            'fields': ('status', 'data_inicio', 'data_termino'),
+            'classes': ('collapse',),
+        }),
+    )

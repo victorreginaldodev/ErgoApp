@@ -1,9 +1,10 @@
+{% load static %}
 <div class="sidebar">
 
     <div class="logo">
-        <h1>ErgoApp</h1>
-        <h5>Versão 2.0</h5>
+        <img src="{% static 'assets\logo.png' %}" alt="Logo da empresa" style="" />
     </div>
+    
 
     <div>
 
@@ -102,7 +103,7 @@
         <a href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'clientes' %}{% endif %}"  
         {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
             onclick="showTechPermissionAlert(); return false;" 
-        {% endif %} style="color: #fff; font-size: 14px;">
+        {% endif %} style="font-size: 14px;">
             <i class="fas fa-user-plus"></i>
             Adicionar cliente
         </a>
@@ -110,12 +111,12 @@
         <a href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'repositorio' %}{% endif %}"  
         {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
             onclick="showTechPermissionAlert(); return false;" 
-        {% endif %} style="color: #fff; font-size: 14px;">
+        {% endif %} style="font-size: 14px;">
             <i class="fas fa-plus"></i>
             Adicionar serviço
         </a>
 
-        <a href="{% url 'logout' %}" style="color: #fff; font-size: 14px;">
+        <a href="{% url 'logout' %}" style="font-size: 14px;">
             <i class="fas fa-sign-out-alt" style="margin-right: 4px;"></i>
             Sair do sistema
         </a>
