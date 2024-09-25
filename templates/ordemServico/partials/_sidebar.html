@@ -2,9 +2,9 @@
 <div class="sidebar">
 
     <div class="logo">
-        <img src="{% static 'assets\logo.png' %}" alt="Logo da empresa" style="" />
+        <img src="{% static 'assets\logo.png' %}" alt="Logo da empresa" style="width: 7vw" />
     </div>
-    
+
 
     <div>
 
@@ -16,10 +16,10 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuAdmin">
                 <li>
                     <!-- Criar ordem de serviço (restrito para Líderes Técnicos e acima) -->
-                    <a class="dropdown-item" 
-                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'criar_ordem_servico' %}{% endif %}"  
-                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
-                            onclick="showTechPermissionAlert(); return false;" 
+                    <a class="dropdown-item"
+                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'criar_ordem_servico' %}{% endif %}"
+                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
+                            onclick="showTechPermissionAlert(); return false;"
                         {% endif %}>
                         <i class="bi bi-pencil-square" style="margin-right: 4px;"></i>
                         Criar ordem de serviço
@@ -27,10 +27,10 @@
                 </li>
                 <li>
                     <!-- Faturamentos desbloqueados (restrito para Líderes Técnicos e acima) -->
-                    <a class="dropdown-item" 
-                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'financeiro' %}{% endif %}"  
-                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
-                            onclick="showTechPermissionAlert(); return false;" 
+                    <a class="dropdown-item"
+                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'financeiro' %}{% endif %}"
+                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
+                            onclick="showTechPermissionAlert(); return false;"
                         {% endif %}>
                         <i class="bi bi-unlock" style="margin-right: 4px; font-weight: 600;"></i>
                         Faturamentos desbloqueados
@@ -38,10 +38,10 @@
                 </li>
                 <li></li>
                     <!-- Monitor de faturamentos (restrito para Líderes Técnicos e acima) -->
-                    <a class="dropdown-item" 
-                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'monitoramento_financeiro' %}{% endif %}"  
-                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
-                            onclick="showTechPermissionAlert(); return false;" 
+                    <a class="dropdown-item"
+                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'monitoramento_financeiro' %}{% endif %}"
+                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
+                            onclick="showTechPermissionAlert(); return false;"
                         {% endif %}>
                         <i class="bi bi-graph-up" style="margin-right: 4px;"></i>
                         Monitor financeiro
@@ -58,10 +58,10 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuTech">
                 <li>
                     <!-- Líder Técnico (restrito para Líderes Técnicos e acima) -->
-                    <a class="dropdown-item" 
-                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'lider_tecnico' %}{% endif %}"  
-                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
-                            onclick="showTechPermissionAlert(); return false;" 
+                    <a class="dropdown-item"
+                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'lider_tecnico' %}{% endif %}"
+                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
+                            onclick="showTechPermissionAlert(); return false;"
                         {% endif %}>
                         <i class="bi bi-person-gear" style="margin-right: 4px;"></i>
                         Líder técnico
@@ -69,22 +69,22 @@
                 </li>
                 <li>
                     <!-- Técnico (restrito para Técnicos e Sub-Líderes Técnicos) -->
-                    <a class="dropdown-item" 
-                        href="{% if request.user.profile.role == 4 or request.user.profile.role == 5 %}{% url 'tecnico' %}{% endif %}" 
-                        {% if request.user.profile.role == 1 or request.user.profile.role == 2 or request.user.profile.role == 3 %} 
-                            onclick="showLeaderPermissionAlert(); return false;" 
+                    <a class="dropdown-item"
+                        href="{% if request.user.profile.role == 4 or request.user.profile.role == 5 %}{% url 'tecnico' %}{% endif %}"
+                        {% if request.user.profile.role == 1 or request.user.profile.role == 2 or request.user.profile.role == 3 %}
+                            onclick="showLeaderPermissionAlert(); return false;"
                         {% endif %}>
                         <i class="fa-solid fa-helmet-safety" style="margin-right: 4px;"></i>
                         Técnico
                     </a>
 
-                </li>   
+                </li>
                 <li>
                     <!-- Técnico (restrito para Técnicos e Sub-Líderes Técnicos) -->
-                    <a class="dropdown-item" 
-                        href="{% if request.user.profile.role == 4 or request.user.profile.role == 5 %}{% url 'os_rapida' %}{% endif %}" 
-                        {% if request.user.profile.role == 1 or request.user.profile.role == 2 or request.user.profile.role == 3 %} 
-                            onclick="showLeaderPermissionAlert(); return false;" 
+                    <a class="dropdown-item"
+                        href="{% if request.user.profile.role == 4 or request.user.profile.role == 5 %}{% url 'os_rapida' %}{% endif %}"
+                        {% if request.user.profile.role == 1 or request.user.profile.role == 2 or request.user.profile.role == 3 %}
+                            onclick="showLeaderPermissionAlert(); return false;"
                         {% endif %}>
                         <i class="bi bi-lightning" style="margin-right: 4px;"></i>
                         OS Rápida
@@ -100,17 +100,17 @@
             </ul>
         </div>
 
-        <a href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'clientes' %}{% endif %}"  
-        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
-            onclick="showTechPermissionAlert(); return false;" 
+        <a href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'clientes' %}{% endif %}"
+        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
+            onclick="showTechPermissionAlert(); return false;"
         {% endif %} style="font-size: 14px;">
             <i class="fas fa-user-plus"></i>
             Adicionar cliente
         </a>
 
-        <a href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'repositorio' %}{% endif %}"  
-        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} 
-            onclick="showTechPermissionAlert(); return false;" 
+        <a href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'repositorio' %}{% endif %}"
+        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
+            onclick="showTechPermissionAlert(); return false;"
         {% endif %} style="font-size: 14px;">
             <i class="fas fa-plus"></i>
             Adicionar serviço
