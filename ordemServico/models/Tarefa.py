@@ -33,7 +33,6 @@ class Tarefa(models.Model):
     descricao = models.TextField(
         null=True, 
         blank=True,
-        max_length=255
     )
     data_inicio = models.DateField(
         null=True,

@@ -102,20 +102,8 @@ class OrdemServicoAdmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     # Exibir essas colunas na listagem
     list_display = ('user', 'role',)
-    
     # Adicionar campos de pesquisa
     search_fields = ['user__username']  # Corrigido: agora é uma lista
-
-    # Exibir as informações detalhadas ao editar ou adicionar um profile
-    fieldsets = (
-        (None, {
-            'fields': ('user', 'role', 'cpf', 'profile_picture')
-        }),
-        ('Tokens e Outras Informações', {
-            'fields': ('token', 'created'),
-            'classes': ('collapse',),
-        }),
-    )
 
 
 @admin.register(Repositorio)

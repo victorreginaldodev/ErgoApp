@@ -107,13 +107,11 @@
                                         <div class="d-flex align-items-center">
 
                                             <select name="status" id="id_status" class="form-select w-75">
-                                                <option value="nao_iniciado" {% if servico.status=='em_espera'
-                                                    %}selected{% endif %}>NÃO INICIADO</option>
-                                                <option value="em_andamento" {% if servico.status=='em_andamento'
-                                                    %}selected{% endif %}>EM ANDAMENTO</option>
-                                                <option value="finalizada" {% if servico.status=='concluida'
-                                                    %}selected{% endif %}>CONCLUÍDA</option>
+                                                <option value="nao_iniciado" {% if servico.status == 'nao_iniciado' %}selected{% endif %}>NÃO INICIADO</option>
+                                                <option value="em_andamento" {% if servico.status == 'em_andamento' %}selected{% endif %}>EM ANDAMENTO</option>
+                                                <option value="concluida" {% if servico.status == 'concluida' %}selected{% endif %}>CONCLUÍDA</option>
                                             </select>
+                                            
 
                                             <button class="btn btn-success ms-2" type="submit" name="formUpdate">
                                                 Atualizar
@@ -134,97 +132,51 @@
                             <!-- Tabela de tarefas relacionadas -->
                             <div class="mb-4">
                                 <label class="form-label">Tarefas relacionadas:</label>
-                                <table class="table"
-                                    style="border-collapse: collapse; border: 1px solid var(--cinza); border-radius: 12px; width: 100%; overflow: hidden;">
-                                    <thead style="background-color: var(--cinza-clarinho); border-radius: 12px;">
-                                        <tr
-                                            style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
-                                            <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza);">
-                                                Nome do Colaborador
-                                            </th>
-                                            <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza);">
-                                                Descrição da Tarefa
-                                            </th>
-                                            <th scope="col" style="padding: 8px; width: 15%;">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for tarefa in servico.tarefa_set.all %}
-                                        <tr style="border-bottom: 1px solid var(--cinza);">
-                                            <td
-                                                style="padding: 8px; border-right: 1px solid var(--cinza); width: 25%; font-size: 14px;">
-                                                {{ tarefa.profile }}
-                                            </td>
-                                            <td
-                                                style="padding: 8px; font-size: 14px; border-right: 1px solid var(--cinza);">
-                                                {{ tarefa.descricao }}
-                                            </td>
-                                            <td style="padding: 8px; font-size: 14px;">
-                                                {{ tarefa.get_status_display }}
-                                            </td>
-                                        </tr>
-                                        {% empty %}
-                                        <tr>
-                                            <td colspan="3" style="padding: 8px; text-align: center;">
-                                                Nenhuma tarefa relacionada.
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <table class="table"
+                                        style="border-collapse: collapse; border: 1px solid var(--cinza); border-radius: 12px; overflow: hidden;">
+                                        <thead style="background-color: var(--cinza-clarinho); border-radius: 12px;">
+                                            <tr
+                                                style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
+                                                <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza); width: 20%;">
+                                                    Técnico
+                                                </th>
+                                                <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza); width: 40%;">
+                                                    Descrição da Tarefa
+                                                </th>
+                                                <th scope="col" style="padding: 8px; width: 20%;">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for tarefa in servico.tarefa_set.all %}
+                                            <tr style="border-bottom: 1px solid var(--cinza);">
+                                                <td
+                                                    style="padding: 8px; border-right: 1px solid var(--cinza); font-size: 14px;">
+                                                    {{ tarefa.profile }}
+                                                </td>
+                                                <td
+                                                    style="padding: 8px; font-size: 14px; border-right: 1px solid var(--cinza);">
+                                                    {{ tarefa.descricao }}
+                                                </td>
+                                                <td style="padding: 8px; font-size: 14px;">
+                                                    {{ tarefa.get_status_display }}
+                                                </td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="3" style="padding: 8px; text-align: center;">
+                                                    Nenhuma tarefa relacionada.
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
                         <a href="{% url 'tarefas' servico.id %}" class="btn button py-2" target="_blank">Nova tarefa</a>
-
-                        <!-- Button trigger modal -->
-                        <!-- <button type="button" class="btn button py-2" data-bs-toggle="modal"
-                            data-bs-target="#modal-{{ servico.id }}">
-                            Nova tarefa
-                        </button> -->
-
-                        <!-- Modal -->
-                        <!-- <div class="modal fade" id="modal-{{ servico.id }}" data-bs-backdrop="static"
-                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-{{ servico.id }}"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modalLabel-{{ servico.id }}">Nova Tarefa</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="servico_id" value="{{ servico.id }}">
-
-                                            {{ form_tarefa.management_form }}
-
-                                            {% for form in form_tarefa %}
-                                            <div class="form-group mb-3">
-                                                <label for="{{ form.profile.id_for_label }}">Colaborador:</label>
-                                                {{ form.profile }}
-                                            </div>
-
-                                            <div class="form-group mb-3">
-                                                <label for="{{ form.descricao.id_for_label }}">Descrição:</label>
-                                                {{ form.descricao }}
-                                            </div>
-                                            {% endfor %}
-
-                                            <button class="btn btn-success" type="submit"
-                                                name="formTarefa">Adicionar Tarefas</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Fechar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  -->
-                        <!-- Fim da Modal -->
                     </div>
                 </div>
             </div>
@@ -299,15 +251,14 @@
                                 <table class="table"
                                     style="border-collapse: collapse; border: 1px solid var(--cinza); border-radius: 12px; width: 100%; overflow: hidden;">
                                     <thead style="background-color: var(--cinza-clarinho); border-radius: 12px;">
-                                        <tr
-                                            style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
-                                            <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza);">
-                                                Nome do Colaborador
+                                        <tr style="border: 1px solid var(--cinza); font-size: 12px; text-transform: uppercase; text-align: left; font-weight: 700;">
+                                            <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza); width: 20%;">
+                                                Técnico
                                             </th>
-                                            <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza);">
+                                            <th scope="col" style="padding: 8px; border-right: 1px solid var(--cinza); width: 40%;">
                                                 Descrição da Tarefa
                                             </th>
-                                            <th scope="col" style="padding: 8px; width: 15%;">Status</th>
+                                            <th scope="col" style="padding: 8px; width: 20%;">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -337,55 +288,7 @@
                             </div>
                         </div>
 
-                        <a href="#">Nova tarefa</a>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn button py-2" data-bs-toggle="modal"
-                            data-bs-target="#modal-{{ servico.id }}">
-                            Nova tarefa
-                        </button>
-
-                        <!-- Modal -->
-                        <!-- <div class="modal fade" id="modal-{{ servico.id }}" data-bs-backdrop="static"
-                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-{{ servico.id }}"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modalLabel-{{ servico.id }}">Nova Tarefa</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="servico_id" value="{{ servico.id }}">
-
-                                            {{ form_tarefa.management_form }}
-
-                                            {% for form in form_tarefa %}
-                                            <div class="form-group mb-3">
-                                                <label for="{{ form.profile.id_for_label }}">Colaborador:</label>
-                                                {{ form.profile }}
-                                            </div>
-
-                                            <div class="form-group mb-3">
-                                                <label for="{{ form.descricao.id_for_label }}">Descrição:</label>
-                                                {{ form.descricao }}
-                                            </div>
-                                            {% endfor %}
-
-                                            <button class="btn btn-success" type="submit"
-                                                name="formTarefa">Adicionar Tarefas</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Fechar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  -->
-                        <!-- Fim da Modal -->
+                        <a href="{% url 'tarefas' servico.id %}" class="btn button py-2" target="_blank">Nova tarefa</a>
                     </div>
                 </div>
             </div>
@@ -452,28 +355,15 @@
                                     {% csrf_token %}
                                     <input type="hidden" name="servico_id" value="{{ servico.id }}">
 
-                                    <!-- Exibe erros do formulário -->
-                                    {% if formUpdate.errors %}
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            {% for field, errors in formUpdate.errors.items %}
-                                            <li>{{ field }}: {{ errors }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                    {% endif %}
-
                                     <!-- Campo de status -->
                                     <div class="form-group me-2">
                                         <label for="{{ formUpdate.status.id_for_label }}" class="mb-2">Status:</label>
-                                        <select name="status" id="id_status" class="form-select w-100">
-                                            <option value="em_espera" {% if servico.status=='em_espera' %}selected{%
-                                                endif %}>EM ESPERA</option>
-                                            <option value="em_andamento" {% if servico.status=='em_andamento'
-                                                %}selected{% endif %}>EM ANDAMENTO</option>
-                                            <option value="concluida" {% if servico.status=='concluida' %}selected{%
-                                                endif %}>CONCLUÍDA</option>
+                                        <select name="status" id="id_status" class="form-select w-75">
+                                            <option value="nao_iniciado" {% if servico.status == 'nao_iniciado' %}selected{% endif %}>NÃO INICIADO</option>
+                                            <option value="em_andamento" {% if servico.status == 'em_andamento' %}selected{% endif %}>EM ANDAMENTO</option>
+                                            <option value="concluida" {% if servico.status == 'concluida' %}selected{% endif %}>CONCLUÍDA</option>
                                         </select>
+                                        
                                     </div>
 
                                     <!-- Campo de data de conclusão -->
@@ -481,8 +371,7 @@
                                         <label for="{{ formUpdate.data_conclusao.id_for_label }}" class="mb-2">Data de
                                             Conclusão:</label>
                                         <input type="date" name="data_conclusao" id="id_data_conclusao"
-                                            class="form-control w-100" value="{{ servico.data_conclusao|date:" Y-m-d"
-                                            }}">
+                                            class="form-control w-100" value="{{ servico.data_conclusao|date:" Y-m-d" }}">
                                     </div>
 
                                     <!-- Botão de atualização -->
@@ -544,55 +433,6 @@
                                 </table>
                             </div>
                         </div>
-
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn button py-2" data-bs-toggle="modal"
-                            data-bs-target="#modal-{{ servico.id }}">
-                            Nova tarefa
-                        </button>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="modal-{{ servico.id }}" data-bs-backdrop="static"
-                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-{{ servico.id }}"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modalLabel-{{ servico.id }}">Nova Tarefa</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Formulário de tarefas -->
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="servico_id" value="{{ servico.id }}">
-
-                                            {{ form_tarefa.management_form }}
-
-                                            {% for form in form_tarefa %}
-                                            <div class="form-group mb-3">
-                                                <label for="{{ form.profile.id_for_label }}">Colaborador:</label>
-                                                {{ form.profile }}
-                                            </div>
-
-                                            <div class="form-group mb-3">
-                                                <label for="{{ form.descricao.id_for_label }}">Descrição:</label>
-                                                {{ form.descricao }}
-                                            </div>
-                                            {% endfor %}
-
-                                            <button class="btn btn-success" type="submit" name="formTarefa">Adicionar
-                                                Tarefas</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Fechar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- Fim da Modal -->
                     </div>
                 </div>
             </div>

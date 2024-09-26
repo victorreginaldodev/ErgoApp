@@ -99,3 +99,11 @@ LOGIN_URL = 'login'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_FROM_EMAIL = "nao-responder@ergogroupapp.com"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = 'nao-responder@ergogroupapp.com'
+EMAIL_HOST_PASSWORD = 'Ergo##2024'  # Certifique-se de que a senha esteja correta
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.hostinger.com'  # Host SMTP da Hostinger
