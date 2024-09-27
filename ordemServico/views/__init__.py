@@ -7,3 +7,4 @@ from .RegistroView import *
 from .TecnicoView import *
 from .ClientesView import *
 from .RepositorioView import *
+from . UsuarioView import *

@@ -13,7 +13,7 @@
                 aria-expanded="false">
                 Administrativo
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuAdmin">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuAdmin" style="position: fixed; z-index: 999;">
                 <li>
                     <!-- Criar ordem de serviço (restrito para Líderes Técnicos e acima) -->
                     <a class="dropdown-item"
@@ -36,7 +36,7 @@
                         Faturamentos desbloqueados
                     </a>
                 </li>
-                <li></li>
+                <li>
                     <!-- Monitor de faturamentos (restrito para Líderes Técnicos e acima) -->
                     <a class="dropdown-item"
                         href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'monitoramento_financeiro' %}{% endif %}"
@@ -114,6 +114,11 @@
         {% endif %} style="font-size: 14px;">
             <i class="fas fa-plus"></i>
             Adicionar serviço
+        </a>
+
+        <a href="{% url 'usuario' %}" style="font-size: 14px;">
+            <i class="fa-solid fa-user-edit" style="margin-right: 4px;"></i> 
+            Perfil de usuário
         </a>
 
         <a href="{% url 'logout' %}" style="font-size: 14px;">

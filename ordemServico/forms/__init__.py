@@ -15,3 +15,5 @@ from .TarefaForm import TarefaForm
 from .ClienteForm import ClienteForm
 
 from .RepositorioForm import RepositorioForm
+
+from .UserUpdateForm import UserUpdateForm
