@@ -89,6 +89,9 @@ def painel_de_controle(request):
     valor_total_faturadas = faturadas.aggregate(Sum('valor'))['valor__sum'] or 0
     contagem_faturadas = faturadas.count()
     
+    # Todos os serviços
+    servicos = Servico.objects.all().order_by('-ordem_servico__data_criacao')
+    
     context = {      
         'contagem_ordens_criadas_hoje': contagem_ordens_criadas_hoje,
         'contagem_ordens_ultimos_7_dias': contagem_ordens_ultimos_7_dias,
@@ -113,6 +116,8 @@ def painel_de_controle(request):
         'para_faturar': para_faturar,
         'valor_total_para_faturar': locale.currency(valor_total_para_faturar, grouping=True),
         'contagem_para_faturar': contagem_para_faturar,
+        
+        'servicos': servicos,
     }
 
     return render(request, 'ordemServico/painel_controle.html', context)

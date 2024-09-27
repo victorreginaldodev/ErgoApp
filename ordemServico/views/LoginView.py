@@ -16,7 +16,7 @@ def user_login(request):
             user_profile = user.profile  # Acessa o perfil do usuário
             
             if user_profile.role in [1, 2]:  # Diretor ou Administrativo
-                return redirect('criar_ordem_servico')  # Redireciona para a página 'criar_ordem_servico'
+                return redirect('painel_de_controle')  # Redireciona para a página 'criar_ordem_servico'
             elif user_profile.role == 3:  # Líder Técnico
                 return redirect('lider_tecnico')  # Redireciona para a página 'lider_tecnico'
             elif user_profile.role in [4, 5]:  # Sub-Líder Técnico ou Técnico

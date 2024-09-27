@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="content page-title mb-5" style="min-height: 80vh;">
+<div class="content page-title mb-5 p-3" style="min-height: 80vh;">
 
     <div class="container">
         <h3 class="fs-5 mb-5">
@@ -21,8 +21,8 @@
         </h6>
         <div class="card-group mb-4">
 
-             <!-- Card for Para Faturar -->
-             <div class="card">
+            <!-- Card for Para Faturar -->
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">
                         <i class="bi bi-exclamation-circle"></i> <!-- Representa serviços prontos para faturar -->
@@ -137,7 +137,7 @@
         </h6>
 
         <!-- Cards for Service Status -->
-        <div class="card-group mb-5">
+        <div class="card-group mb-4">
             <!-- Card for Serviços em Espera -->
             <div class="card">
                 <div class="card-body">
@@ -195,10 +195,86 @@
             </div>
         </div>
 
+        <h6 style="color: #78828B; font-weight: 600;" class="mb-2">
+            Histórico de serviços:
+        </h6>
+
+        <div class="container-table p-1" style="max-height: 50vh; overflow-y: auto;">
+            <div class="input-group mb-3">
+                <input type="text" id="search-input" class="form-control" placeholder="Pesquisar..."
+                    onkeyup="filterTable()">
+            </div>
+            <table class="table table-striped table-hover" id="data-table">
+                <thead>
+                    <tr style="font-size: 16px; font-weight: 600;">
+                        <th scope="col">CLIENTE</th>
+                        <th scope="col">SERVIÇO</th>
+                        <th scope="col">RECEBIMENTO</th>
+                        <th scope="col">CONCLUSÃO</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">VER DETALHES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for servico in servicos %}
+                    <tr id="servico-{{ servico.id }}">
+                        <td>{{ servico.ordem_servico.cliente.nome|truncatechars:20 }}</td>
+                        <td>{{ servico.repositorio.nome|truncatechars:20 }}</td>
+                        <td>{{ servico.ordem_servico.data_criacao|date:"d/m/Y" }}</td>
+                        <td>
+                            {% if servico.data_conclusao %}
+                            {{ servico.data_conclusao|date:"d/m/Y" }}
+                            {% else %}
+                            NÃO CONCLUÍDO
+                            {% endif %}
+                        </td>
+                        <td>{{ servico.get_status_display }}</td>
+                        <td>
+                            <a href="{% url 'servico' servico.id %}" class="btn button" target="_blank">Ver detalhes</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-
 </div>
 
+{% endblock %}
 
-</div>
+{% block scripts %}
+<!-- Script JavaScript para Filtragem -->
+<script>
+    function filterTable() {
+        // Obtém o valor digitado no campo de pesquisa
+        let input = document.getElementById('search-input');
+        let filter = input.value.toLowerCase();
+        let table = document.getElementById('data-table');
+        let tr = table.getElementsByTagName('tr');
+
+        // Loop através das linhas da tabela (ignorando o cabeçalho)
+        for (let i = 1; i < tr.length; i++) {  // Começa do índice 1 para ignorar o cabeçalho
+            let tdArray = tr[i].getElementsByTagName('td');
+            let found = false;
+
+            // Verifica se algum dos campos (td) da linha corresponde ao filtro
+            for (let j = 0; j < tdArray.length; j++) {
+                if (tdArray[j]) {
+                    let txtValue = tdArray[j].textContent || tdArray[j].innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            // Mostra ou oculta a linha com base na pesquisa
+            if (found) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+</script>
 {% endblock %}
