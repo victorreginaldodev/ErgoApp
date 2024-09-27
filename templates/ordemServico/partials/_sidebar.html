@@ -8,19 +8,25 @@
 
     <div>
 
+        <a class="dropdown-item" href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'painel_de_controle' %}{% endif %}"
+            {% if request.user.profile.role == 4 or request.user.profile.role == 5 %} onclick="showTechPermissionAlert(); return false;" {% endif %} style="font-size: 14px;">
+            <i class="bi bi-graph-up" style="margin-right: 4px;"></i>
+            Painel de controle
+        </a>
+
         <div class="dropdown dropdown-sidebar mb-3">
             <button class="btn dropdown-toggle" type="button" id="dropdownMenuAdmin" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Administrativo
+                aria-expanded="false" style="font-size: 14px;">
+                <i class="fas fa-folder-open"></i> Administrativo
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuAdmin" style="position: fixed; z-index: 999;">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuAdmin">
                 <li>
                     <!-- Criar ordem de serviço (restrito para Líderes Técnicos e acima) -->
                     <a class="dropdown-item"
                         href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'criar_ordem_servico' %}{% endif %}"
                         {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
                             onclick="showTechPermissionAlert(); return false;"
-                        {% endif %}>
+                        {% endif %} style="color: #000">
                         <i class="bi bi-pencil-square" style="margin-right: 4px;"></i>
                         Criar ordem de serviço
                     </a>
@@ -31,29 +37,22 @@
                         href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'financeiro' %}{% endif %}"
                         {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
                             onclick="showTechPermissionAlert(); return false;"
-                        {% endif %}>
+                        {% endif %} style="color: #000">
                         <i class="bi bi-unlock" style="margin-right: 4px; font-weight: 600;"></i>
                         Faturamentos desbloqueados
                     </a>
                 </li>
                 <li>
                     <!-- Monitor de faturamentos (restrito para Líderes Técnicos e acima) -->
-                    <a class="dropdown-item"
-                        href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'monitoramento_financeiro' %}{% endif %}"
-                        {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
-                            onclick="showTechPermissionAlert(); return false;"
-                        {% endif %}>
-                        <i class="bi bi-graph-up" style="margin-right: 4px;"></i>
-                        Monitor financeiro
-                    </a>
+                    
                 </li>
             </ul>
         </div>
 
         <div class="dropdown dropdown-sidebar mb-3">
             <button class="btn dropdown-toggle" type="button" id="dropdownMenuTech" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Área Técnica
+                aria-expanded="false" style="font-size: 14px;">
+                <i class="fa-solid fa-helmet-safety" style="margin-right: 4px;"></i> Área Técnica
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuTech">
                 <li>
@@ -62,7 +61,7 @@
                         href="{% if request.user.profile.role != 4 and request.user.profile.role != 5 %}{% url 'lider_tecnico' %}{% endif %}"
                         {% if request.user.profile.role == 4 or request.user.profile.role == 5 %}
                             onclick="showTechPermissionAlert(); return false;"
-                        {% endif %}>
+                        {% endif %} style="color: #000">
                         <i class="bi bi-person-gear" style="margin-right: 4px;"></i>
                         Líder técnico
                     </a>
@@ -73,7 +72,7 @@
                         href="{% if request.user.profile.role == 4 or request.user.profile.role == 5 %}{% url 'tecnico' %}{% endif %}"
                         {% if request.user.profile.role == 1 or request.user.profile.role == 2 or request.user.profile.role == 3 %}
                             onclick="showLeaderPermissionAlert(); return false;"
-                        {% endif %}>
+                        {% endif %} style="color: #000">
                         <i class="fa-solid fa-helmet-safety" style="margin-right: 4px;"></i>
                         Técnico
                     </a>
@@ -85,14 +84,14 @@
                         href="{% if request.user.profile.role == 4 or request.user.profile.role == 5 %}{% url 'os_rapida' %}{% endif %}"
                         {% if request.user.profile.role == 1 or request.user.profile.role == 2 or request.user.profile.role == 3 %}
                             onclick="showLeaderPermissionAlert(); return false;"
-                        {% endif %}>
+                        {% endif %} style="color: #000">
                         <i class="bi bi-lightning" style="margin-right: 4px;"></i>
                         OS Rápida
                     </a>
                 </li>
                 <li>
                     <!-- Criar OS Rápida (acesso liberado para todos os usuários) -->
-                    <a class="dropdown-item" href="{% url 'criar_os_rapida' %}">
+                    <a class="dropdown-item" href="{% url 'criar_os_rapida' %}" style="color: #000">
                         <i class="bi bi-pencil-square" style="margin-right: 4px;"></i>
                         Criar OS Rápida
                     </a>

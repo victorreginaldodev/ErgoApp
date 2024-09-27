@@ -50,7 +50,6 @@ def financeiro(request):
         total_servicos=F('total_concluidos'),  # Todos os serviços concluídos
         faturamento='nao'  # Filtro para apenas ordens de serviço com faturamento "não"
     )
-
     cobrancas_imediatas = OrdemServico.objects.filter(cobranca_imediata = 'sim', faturamento='nao')
 
     # Calcula valores e contagens
@@ -74,25 +73,3 @@ def financeiro(request):
     }
 
     return render(request, 'ordemServico/financeiro.html', context)
-
-
-def monitoramento_financeiro(request):
-    futuros_faturamentos = OrdemServico.objects.filter(concluida='nao', faturamento='nao')
-    valor_total_futuros_faturamentos = futuros_faturamentos.aggregate(Sum('valor'))['valor__sum'] or 0
-    contagem_futuros_faturamentos = futuros_faturamentos.count()
-
-    faturados = OrdemServico.objects.filter(faturamento='sim')
-    valor_total_faturados = faturados.aggregate(Sum('valor'))['valor__sum'] or 0
-    contagem_faturados = faturados.count()
-
-    context = {
-        'futuros_faturamentos': futuros_faturamentos,
-        'valor_total_futuros_faturamentos': valor_total_futuros_faturamentos,
-        'contagem_futuros_faturamentos': contagem_futuros_faturamentos,
-        'faturados': faturados,
-        'valor_total_faturados': valor_total_faturados,
-        'contagem_faturados': contagem_faturados,
-        
-    }
-
-    return render(request, 'ordemServico/monitoramento_financeiro.html', context)

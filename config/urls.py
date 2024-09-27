@@ -15,4 +15,5 @@ urlpatterns = [
     path('', include('ordemServico.urls.ClientesUrls')),
     path('', include('ordemServico.urls.RepositorioUrls')),
     path('', include('ordemServico.urls.UsuarioUrls')),
+    path('', include('ordemServico.urls.PainelControleUrls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

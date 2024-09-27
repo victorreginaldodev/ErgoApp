@@ -1,0 +1,204 @@
+{% extends 'ordemServico/base.html' %}
+{% load static %}
+{% block title %} Painel de controle {% endblock %}
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content page-title mb-5" style="min-height: 80vh;">
+
+    <div class="container">
+        <h3 class="fs-5 mb-5">
+            <i class="bi bi-graph-up" style="margin-right: 4px;"></i>
+            Painel de controle
+        </h3>
+
+        <h6 style="color: #78828B; font-weight: 600;" class="mb-2">
+            Status dos faturamentos:
+        </h6>
+        <div class="card-group mb-4">
+
+             <!-- Card for Para Faturar -->
+             <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-exclamation-circle"></i> <!-- Representa serviços prontos para faturar -->
+                        Prontos para Faturar
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ contagem_para_faturar }}</p>
+                    <p class="card-text" style="font-weight: 500;">Valor Total: R$ {{ valor_total_para_faturar }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+
+            <!-- Card for Futuros Faturamentos -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-clock-history"></i> <!-- Representa futuros faturamentos -->
+                        Futuros Faturamentos
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ contagem_futuros_faturamentos }}</p>
+                    <p class="card-text" style="font-weight: 500;">Valor Total: R$ {{ valor_total_futuros_faturamentos }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+
+            <!-- Card for Total de Faturadas -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-cash-stack"></i> <!-- Representa faturamento -->
+                        Ordens Faturadas
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ contagem_faturadas }}</p>
+                    <p class="card-text" style="font-weight: 500;">Valor Total: R$ {{ valor_total_faturadas }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+        </div>
+
+        <h6 style="color: #78828B; font-weight: 600;" class="mb-2">
+            Histórico de ordens de serviços dos últimos 30 dias:
+        </h6>
+
+        <div class="card-group mb-4">
+            <!-- Card for Today -->
+            <div class="card today">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-calendar-check"></i> <!-- Representa hoje com um checkmark -->
+                        Hoje
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ contagem_ordens_criadas_hoje }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">
+                        Informações atualizadas
+                    </small>
+                </div>
+            </div>
+
+            <!-- Card for Last 7 Days -->
+            <div class="card seven-days">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-clock-history"></i>
+                        <!-- Representa os últimos 7 dias com um ícone de histórico -->
+                        Últimos 7 dias
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ contagem_ordens_ultimos_7_dias }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+
+            <!-- Card for Last 15 Days -->
+            <div class="card fifteen-days">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-calendar-range"></i> <!-- Representa um intervalo de datas com um calendário -->
+                        Últimos 15 dias
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ contagem_ordens_ultimos_15_dias }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+
+            <!-- Card for Last 30 Days -->
+            <div class="card thirty-days">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-calendar-month"></i> <!-- Representa o mês com um calendário de 30 dias -->
+                        Últimos 30 dias
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ contagem_ordens_ultimos_30_dias }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+        </div>
+
+        <h6 style="color: #78828B; font-weight: 600;" class="mb-2">
+            Status dos serviços:
+        </h6>
+
+        <!-- Cards for Service Status -->
+        <div class="card-group mb-5">
+            <!-- Card for Serviços em Espera -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-pause-circle"></i> <!-- Representa serviços em espera -->
+                        Serviços em Espera
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ qtd_novos_servicos }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+
+            <!-- Card for Serviços em Andamento -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-hourglass-split"></i> <!-- Representa serviços em andamento -->
+                        Serviços em Andamento
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ qtd_servicos_em_andamento }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+
+            <!-- Card for Serviços Prontos para Finalizar -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-flag"></i> <!-- Representa serviços prontos para finalizar -->
+                        Serviços Prontos para Finalizar
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ qtd_servicos_para_finalizar }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+
+            <!-- Card for Serviços Finalizados -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-check-circle"></i> <!-- Representa serviços finalizados -->
+                        Serviços Finalizados
+                    </h5>
+                    <p class="card-text" style="font-weight: 500;">Quantidade: {{ qtd_servicos_finalizados }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">Informações atualizadas</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+{% endblock %}
