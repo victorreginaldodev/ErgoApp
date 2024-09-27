@@ -38,12 +38,17 @@
                 value="{{ user_form.email.value }}">
         </div>
 
-        <!-- Instruções de senha -->
         <div class="alert alert-info">
-            <strong>Instruções:</strong> Sua senha deve conter pelo menos 8 caracteres, incluir letras maiúsculas e
-            minúsculas, números e caracteres especiais.
-        </div>
-
+            <strong style="font-weight: 700;">Instruções:</strong>
+            <ul style="margin-top: 10px; list-style-type: disc; padding-left: 20px;">
+                <li>Sua senha deve conter <strong>pelo menos 8 caracteres</strong>.</li>
+                <li>Incluir <strong>letras maiúsculas</strong> (ex: A, B, C...).</li>
+                <li>Incluir <strong>letras minúsculas</strong> (ex: a, b, c...).</li>
+                <li>Incluir <strong>números</strong> (ex: 1, 2, 3...).</li>
+                <li>Incluir <strong>caracteres especiais</strong> (ex: @, #, $, %, &).</li>
+            </ul>
+        </div>     
+        
         <!-- Campos para alterar a senha -->
         <div class="form-group mb-3">
             <label for="old_password">{{ password_form.old_password.label }}</label>
