@@ -10,10 +10,10 @@ class MiniOS(models.Model):
         ('finalizada', 'FINALIZADA'),
     )
 
-    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
-    servico = models.ForeignKey(RepositorioMiniOS, on_delete=models.PROTECT)
+    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, related_name='cliente_minios')
+    servico = models.ForeignKey(RepositorioMiniOS, on_delete=models.PROTECT, related_name='servico_minios')
     quantidade = models.IntegerField(null=True, blank=True, default=1)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile_minios')
     descricao = models.TextField(null=True, blank=True)
     data_recebimento = models.DateField(null=True, blank=True)
     data_inicio = models.DateField(null=True, blank=True)

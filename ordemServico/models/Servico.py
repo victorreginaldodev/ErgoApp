@@ -13,7 +13,8 @@ class Servico(models.Model):
         OrdemServico,
         on_delete=models.CASCADE,
         null=True,
-        blank=True
+        blank=True,
+        related_name='servicos'
     )
     repositorio = models.ForeignKey(
         Repositorio,

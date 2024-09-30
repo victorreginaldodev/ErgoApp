@@ -64,7 +64,8 @@ class OrdemServico(models.Model):
         Cliente,
         on_delete=models.PROTECT,
         null=False,
-        blank=False
+        blank=False,
+        related_name='cliente'
     )
 
     valor = models.FloatField(

@@ -16,7 +16,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ordemServico'
+    'ordemServico',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -107,3 +108,13 @@ EMAIL_HOST_PASSWORD = 'Ergo##2024'  # Certifique-se de que a senha esteja corret
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST = 'smtp.hostinger.com'  # Host SMTP da Hostinger
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}

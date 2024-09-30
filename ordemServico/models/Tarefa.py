@@ -22,13 +22,15 @@ class Tarefa(models.Model):
         on_delete=models.CASCADE,
         null=False,
         blank=False,
-        default=""
+        default="",
+         related_name='tarefas'
     ) 
     profile = models.ForeignKey(
         Profile, 
         on_delete=models.CASCADE,
         null=False,
-        blank=False
+        blank=False,
+        related_name='tarefas_profile'
     )
     descricao = models.TextField(
         null=True, 

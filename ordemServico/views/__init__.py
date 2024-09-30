@@ -9,3 +9,5 @@ from .ClientesView import *
 from .RepositorioView import *
 from .UsuarioView import *
 from .ServicoView import *
+from .OrdemServicoViewSet import *
+from .MiniOsViewSet import *
