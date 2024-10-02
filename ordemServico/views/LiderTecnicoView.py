@@ -40,8 +40,8 @@ def lider_tecnico(request):
 
     # Filtra serviços que podem ser finalizados (onde todas as tarefas têm status 'concluída' e o serviço possui tarefas)
     servicos_para_finalizar = Servico.objects.annotate(
-        total_tarefas=Count('tarefa'),  # Conta o número total de tarefas relacionadas ao serviço
-        tarefas_concluidas=Count('tarefa', filter=Q(tarefa__status='concluida'))  # Conta o número de tarefas com status 'concluída'
+        total_tarefas=Count('tarefas'),  # Conta o número total de tarefas relacionadas ao serviço
+        tarefas_concluidas=Count('tarefas', filter=Q(tarefas__status='concluida'))  # Conta o número de tarefas com status 'concluída'
     ).filter(
         total_tarefas__gt=0,  # Garante que o serviço tenha pelo menos uma tarefa
         total_tarefas=F('tarefas_concluidas'),  # Garante que todas as tarefas estão concluídas
@@ -85,7 +85,7 @@ def lider_tecnico(request):
     context = {
         'novos_servicos': novos_servicos,
         'qtd_novos_servicos': qtd_novos_servicos,
-        
+
         'servicos_em_andamento': servicos_em_andamento,
         'qtd_servicos_em_andamento': qtd_servicos_em_andamento,
 
@@ -96,7 +96,7 @@ def lider_tecnico(request):
         'qtd_servicos_para_finalizar': qtd_servicos_para_finalizar,
 
         'formUpdate': formUpdate,
-        'form_tarefa': form_tarefa,    
+        'form_tarefa': form_tarefa,
     }
 
     return render(request, 'ordemServico/lider_tecnico.html', context)

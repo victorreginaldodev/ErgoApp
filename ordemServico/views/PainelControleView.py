@@ -57,8 +57,8 @@ def painel_de_controle(request):
     qtd_servicos_finalizados = servicos_finalizados.count()
 
     servicos_para_finalizar = Servico.objects.annotate(
-        total_tarefas=Count('tarefa'),
-        tarefas_concluidas=Count('tarefa', filter=Q(tarefa__status='concluida'))
+        total_tarefas=Count('tarefas'),
+        tarefas_concluidas=Count('tarefas', filter=Q(tarefas__status='concluida'))
     ).filter(
         total_tarefas__gt=0,
         total_tarefas=F('tarefas_concluidas'),
@@ -75,8 +75,8 @@ def painel_de_controle(request):
 
    # Faturamento liberados
     para_faturar = OrdemServico.objects.annotate(
-        total_servicos=Count('servico'),
-        total_concluidos=Count('servico', filter=Q(servico__status='concluida'))
+        total_servicos=Count('servicos'),
+        total_concluidos=Count('servicos', filter=Q(servicos__status='concluida'))
     ).filter(
         Q(total_servicos=F('total_concluidos')) | Q(cobranca_imediata='sim'),  # Todos os serviços concluídos ou cobrança imediata
         faturamento='nao'  # Filtro para apenas ordens de serviço com faturamento "não"
