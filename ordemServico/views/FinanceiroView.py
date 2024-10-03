@@ -18,13 +18,13 @@ def financeiro(request):
     if request.method == 'POST':
         # Debug para verificar se os dados estão sendo submetidos corretamente
         print(request.POST)
-        
+
         ordem_servico_id = request.POST.get('ordem_servico_id')
-        
+
         if ordem_servico_id:
             ordem_servico = get_object_or_404(OrdemServico, id=ordem_servico_id)
             form = OrdemServicoUpdateForm(request.POST, instance=ordem_servico)
-            
+
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Ordem de Serviço atualizada com sucesso.')
@@ -35,7 +35,7 @@ def financeiro(request):
             messages.error(request, 'ID da Ordem de Serviço não fornecido.')
     else:
         ordem_servico_id = request.GET.get('ordem_servico_id')
-        
+
         if ordem_servico_id:
             ordem_servico = get_object_or_404(OrdemServico, id=ordem_servico_id)
             form = OrdemServicoUpdateForm(instance=ordem_servico)
@@ -44,8 +44,8 @@ def financeiro(request):
 
     # Filtra ordens de serviço para faturar, futuros faturamentos e faturados
     para_faturar = OrdemServico.objects.annotate(
-        total_servicos=Count('servico'),
-        total_concluidos=Count('servico', filter=Q(servico__status='concluida'))
+        total_servicos=Count('servicos'),
+        total_concluidos=Count('servicos', filter=Q(servicos__status='concluida'))
     ).filter(
         total_servicos=F('total_concluidos'),  # Todos os serviços concluídos
         faturamento='nao'  # Filtro para apenas ordens de serviço com faturamento "não"
@@ -55,7 +55,7 @@ def financeiro(request):
     # Calcula valores e contagens
     valor_total_concluidas = para_faturar.aggregate(Sum('valor'))['valor__sum'] or 0
     valor_total_para_faturar = para_faturar.aggregate(Sum('valor'))['valor__sum'] or 0
-    
+
 
     contagem_concluidas = para_faturar.count()
     contagem_para_faturar = para_faturar.count()
